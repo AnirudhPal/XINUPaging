@@ -714,7 +714,7 @@ extern	void	pfisr(void);
 extern	interrupt pfhandler(void);
 
 /* in file createVApps.c */
-extern void test2P(void);
+extern void testP(void);
 
 /* in file hooks.c */
 extern void hook_ptable_create(unsigned int);

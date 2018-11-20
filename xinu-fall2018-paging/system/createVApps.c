@@ -1,21 +1,29 @@
 // Import Libs
 #include<xinu.h>
 
+// Macro Vars
+#define TST_HEX 0x1234ABCD
+#define TST_BYT 4
+
 // Proc
-void test2P() {
+void testP(unsigned pg) {
 	// Print
 	intmask mask = disable();
-	kprintf("PID: %d -> Using All Pages\n", currpid);
+	kprintf("PID: %d -> Using %d Pages\n", currpid, pg);
 	restore(mask);
 
+  // Get
 	unsigned long i;
-	unsigned long* ptr = (unsigned long*)vgetmem(2 * NBPG);
-	for(i=0; i < (2 * NBPG) / 4; i++) {
-		ptr[i] = 0x123ABCDE;
-		kprintf("ptr[%d] = 0x%x\n", i, ptr[i]);
+	unsigned long* ptr = (unsigned long*)vgetmem(pg * NBPG);
+
+  // Set
+	for(i=0; i < (pg * NBPG) / TST_BYT; i++) {
+		*(ptr + i) = TST_HEX;
 	}
-	for(i=0; i < (2 * NBPG) / 4; i++) {
-		if(ptr[i] != 0x123ABCDE) {
+
+  // Check
+	for(i=0; i < (pg * NBPG) / TST_BYT; i++) {
+		if(ptr[i] != TST_HEX) {
 			// Print
 			mask = disable();
 			kprintf("PID: %d -> Something is Wrong Val: 0x%x at 0x%x\n", currpid, *(ptr + i), ptr + i);

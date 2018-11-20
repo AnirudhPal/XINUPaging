@@ -45,4 +45,5 @@ Commit Log
 7. Turning On Paging and Adding all necessary DS to Procs.
 8. Added support for Heap
 9. Testing Heap without Hooks
-10. Testing Heap with Hooks
+10. Testing Heap with Hooks (STI/CLI Problem)
+11. More Heap Testing
