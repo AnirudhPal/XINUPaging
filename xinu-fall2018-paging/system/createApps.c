@@ -103,10 +103,10 @@ void testPages() {
   }
 
   // Print PD
-  printPD(FRAME0 + i + 1);
+  printPD(FRAME0 + i);
 
   // Print PT
-  printPT(FRAME0 + i + 2);
+  printPT(FRAME0 + i + 1);
 
   // Free Frames
   freeFrames(currpid);
