@@ -675,6 +675,14 @@ extern	syscall	yield(void);
 /** Anirudh Pal Stuff **/
 /* in file createApps.c */
 extern	void testHeap(void);
+
+/* in file frames.c */
+extern	syscall initFrames(void);
+extern	syscall printFrames(void);
+extern	unsigned int getDSFrame(void);
+extern	unsigned int getPFrame(void);
+extern	syscall setFrameType(unsigned int);
+extern	syscall	freeFrames(pid32);
 /** End of Anirudh Pal Stuff **/
 
 /* NETWORK BYTE ORDER CONVERSION NOT NEEDED ON A BIG-ENDIAN COMPUTER */
