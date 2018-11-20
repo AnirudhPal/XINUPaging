@@ -59,11 +59,11 @@ pid32	vcreate(
 	prptr->prdesc[2] = CONSOLE;
 
 	/** Anirudh Pal Stuff **/
-	prptr->prpd = getPD();		                       // Get PD
-	prptr->prpages = hsize_in_pages;	               // No: of Pages
-	prptr->prvheap.mnext = V_FRAME * NBPG;		       // VAddress of Heap
-  prptr->prvheap.mlength = prptr->prpages * NBPG;  // Size of Heap
-	prptr->prhasheap = FALSE;	                       // No Heap
+	prptr->prpd = getPD();		                       					// Get PD
+	prptr->prpages = hsize_in_pages;	               					// No: of Pages
+	prptr->prvheap.mnext = (struct heapblk*)(V_FRAME * NBPG);	// VAddress of Heap
+  prptr->prvheap.mlength = prptr->prpages * NBPG;  					// Size of Heap
+	prptr->prhasheap = FALSE;	                       					// No Heap
 	/** End of Anirudh Pal Stuff **/
 
 	/* Initialize stack as if the process was called		*/
