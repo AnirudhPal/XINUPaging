@@ -2,7 +2,7 @@
 #include<xinu.h>
 
 // Global Var
-extern frametab[NFRAMES];
+extern frame frametab[NFRAMES];
 
 // Initialize Frames
 syscall initFrames() {
