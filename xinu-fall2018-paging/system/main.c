@@ -19,6 +19,8 @@ process	main(void)
 	resume(create(testHeap, 1024, 50, "testHeap", 0));
 	kprintf("\nTesting Frames\n");
 	resume(create(testFrames, 1024, 50, "testFrames", 0));
+	kprintf("\nTesting Pages\n");
+	resume(create(testPages, 1024, 50, "testPages", 0));
 
 	/**
 	kprintf("\n...creating a shell\n");
