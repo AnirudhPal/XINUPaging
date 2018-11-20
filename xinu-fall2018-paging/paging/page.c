@@ -131,7 +131,7 @@ unsigned int getPD() {
 }
 
 // Generate a PT
-unsgined int getPT() {
+unsigned int getPT() {
   // Disable Interrupts
   intmask mask = disable();
 
