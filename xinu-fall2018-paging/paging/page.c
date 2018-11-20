@@ -22,6 +22,9 @@ syscall	setSharedPTs() {
       return SYSERR;
     }
 
+    // Set as PT
+    setFrameType(PT_FRAME, frameNum);
+
     // Get Pointer
     pt_t* sPT = (pt_t*) (frameNum * NBPG);
 
@@ -55,6 +58,9 @@ syscall	setSharedPTs() {
     restore(mask);
     return SYSERR;
   }
+
+  // Set as PT
+  setFrameType(PT_FRAME, frameNum);
 
   // Get Pointer
   pt_t* sPT = (pt_t*) (frameNum * NBPG);
@@ -97,6 +103,9 @@ unsigned int getPD() {
     restore(mask);
     return SYSERR;
   }
+
+  // Set as PD
+  setFrameType(PD_FRAME, frameNum);
 
   // Get Pointer
   pd_t* pPD = (pd_t*) (frameNum * NBPG);
@@ -144,6 +153,9 @@ unsigned int getPT() {
     restore(mask);
     return SYSERR;
   }
+
+  // Set as PT
+  setFrameType(PT_FRAME, frameNum);
 
   // Get Pointer
   pt_t* pPT = (pt_t*) (frameNum * NBPG);
