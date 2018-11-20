@@ -90,27 +90,27 @@ typedef struct {
 
 // Virtual Address Structure
 typedef struct {
-  unsigned int offset: 12 // Page Offset
-  unsigned int pte : 10   // Page Table Entry
-  unsigned int pde : 10   // Page Directory Entry
+  unsigned int offset: 12; // Page Offset
+  unsigned int pte : 10;   // Page Table Entry
+  unsigned int pde : 10;   // Page Directory Entry
 } vadd_t;
 
 // CR0 Structure
 typedef struct {
-  unsigned long lsb : 31  // Ignore
-  unsigned int pg : 1     // Paging
+  unsigned long lsb : 31;  // Ignore
+  unsigned int pg : 1;     // Paging
 } cr0_t;
 
 // CR3 Structure
 typedef struct {
-  unsigned int lsb : 12     // Ignore
-  unsigned long frame : 20  // Frame Number
+  unsigned int lsb : 12;     // Ignore
+  unsigned long frame : 20;  // Frame Number
 } cr3_t;
 
 // Page Fault Error Code Structure
 typedef struct {
-  unsigned int p : 1      // Present Bit
-  unsigned long msb : 31  // Ignore
+  unsigned int p : 1;      // Present Bit
+  unsigned long msb : 31;  // Ignore
 } pfErrCode_t;
 
 /* Global Vars */
