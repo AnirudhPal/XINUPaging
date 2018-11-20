@@ -3,6 +3,9 @@
 
 // High Level Page Fault Handler
 void pfhandler() {
+	// Disable Interrupts
+  intmask mask = disable();
+
 	// Find the Faulting Address
 	unsigned long fadd = getCR2();
 
@@ -41,4 +44,11 @@ void pfhandler() {
 		procPT[PTEInd].pt_write = 1;
 		procPT[PTEInd].pt_base = getPFrame();
 	}
+
+	// Flush TLB
+	setPDBR(proctab[currpid].prpd);
+
+	// Restore and Return
+  restore(mask);
+  return OK;
 }
