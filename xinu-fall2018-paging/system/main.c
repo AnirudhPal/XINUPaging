@@ -48,8 +48,8 @@ process	main(void)
 	intmask mask = disable();
 	kprintf("\nTesting Same Virtual Address\n");
 	restore(mask);
-	int AP = vcreate(test1A, 1024, 1, INITPRIO, "test1A", 0);
-	int BP = vcreate(test1B, 1024, 1, INITPRIO, "test1B", 0);
+	int AP = vcreate(testA, 1024, 1, INITPRIO, "testA", 0);
+	int BP = vcreate(testB, 1024, 1, INITPRIO, "testB", 0);
 	resume(AP);
 	resume(BP);
 	sleep(3);
