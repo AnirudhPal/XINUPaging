@@ -715,7 +715,7 @@ extern	interrupt pfhandler(void);
 
 /* in file createVApps.c */
 extern void testP(unsigned int);
-extern void testPGF(unsigned int)
+extern void testPGF(unsigned int);
 
 /* in file hooks.c */
 extern void hook_ptable_create(unsigned int);
