@@ -82,7 +82,7 @@ syscall	setSharedPTs() {
   }
 
   // Set in Table
-  sharedPTs[i + 1] = frameNum;
+  sharedPTs[i] = frameNum;
 
   // Restore and Return
   restore(mask);
@@ -127,7 +127,7 @@ unsigned int getPD() {
   }
 
   // Set Shared PTEs
-  for(i = 0; i < FRAME_ENTRIES; i++) {
+  for(i = 0; i < SPTS - 1; i++) {
     pPD[i].pd_pres = 1;
     pPD[i].pd_base = sharedPTs[i];
   }
