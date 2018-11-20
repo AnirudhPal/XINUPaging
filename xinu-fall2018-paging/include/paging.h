@@ -59,7 +59,7 @@ typedef struct {
 #define FREE_FRAME    0
 #define PD_FRAME      1
 #define PT_FRAME      2
-#define PT_FRAME      3
+#define PG_FRAME      3
 
 // Frame Entries
 #define FRAME_ENTRIES 1024
