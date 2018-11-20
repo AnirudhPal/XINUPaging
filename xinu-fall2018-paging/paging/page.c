@@ -180,7 +180,7 @@ syscall	printPD(unsigned int frameNum) {
   // Print
   kprintf("PD at Frame %d\n", frameNum);
   int i;
-  for(i = 0; i < FRAME_SIZE; i++) {
+  for(i = 0; i < FRAME_ENTRIES; i++) {
     if(pPD[i].pd_pres == 1) {
       kprintf("pPD[%d]: .pd_pres = %d .pd_base = %d\n", i, pPD[i].pd_pres, pPD[i].pd_base);
     }
@@ -202,7 +202,7 @@ syscall	printPT(unsigned int frameNum) {
   // Print
   kprintf("PT at Frame %d\n", frameNum);
   int i;
-  for(i = 0; i < FRAME_SIZE; i++) {
+  for(i = 0; i < FRAME_ENTRIES; i++) {
     if(pPT[i].pt_pres == 1) {
       kprintf("pPT[%d]: .pt_pres = %d .pt_base = %d\n", i, pPT[i].pt_pres, pPT[i].pt_base);
     }
