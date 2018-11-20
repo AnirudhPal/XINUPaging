@@ -7,8 +7,8 @@ void pfhandler() {
 	unsigned long fadd = getCR2();
 
 	// Hook
-	#ifdef TALK
-	//hook_pfault((char*)fadd);
+	#ifdef VERBOSE
+	hook_pfault((char*)fadd);
 	#endif
 
 	// Increment Count

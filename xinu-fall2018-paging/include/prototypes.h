@@ -715,6 +715,13 @@ extern	interrupt pfhandler(void);
 
 /* in file createVApps.c */
 extern void test2P(void);
+
+/* in file hooks.c */
+extern void hook_ptable_create(unsigned int);
+extern void hook_ptable_delete(unsigned int);
+extern void hook_pfault(char*);
+extern void hook_pswap_out(unsigned int, int);
+extern int get_faults(void);
 /** End of Anirudh Pal Stuff **/
 
 /* NETWORK BYTE ORDER CONVERSION NOT NEEDED ON A BIG-ENDIAN COMPUTER */

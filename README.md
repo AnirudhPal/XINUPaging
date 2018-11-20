@@ -16,6 +16,7 @@ Modified/Created Files
 * system/pfisr.S
 * system/pfhandler.c
 * system/createVApps.c
+* system/hooks.c
 
 ### Modified
 
@@ -44,3 +45,4 @@ Commit Log
 7. Turning On Paging and Adding all necessary DS to Procs.
 8. Added support for Heap
 9. Testing Heap without Hooks
+10. Testing Heap with Hooks
