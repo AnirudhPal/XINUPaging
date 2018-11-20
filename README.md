@@ -27,6 +27,7 @@ Modified/Created Files
 * system/initialize.c
 * include/process.h
 * system/resched.c
+* system/kill.c
 
 Implementations
 ---
@@ -43,7 +44,8 @@ Commit Log
 5. Added support for initialize, get, set and print PDs and PTs.
 6. Testing pages functions.
 7. Turning On Paging and Adding all necessary DS to Procs.
-8. Added support for Heap
-9. Testing Heap without Hooks
-10. Testing Heap with Hooks (STI/CLI Problem)
-11. More Heap Testing
+8. Added support for Heap.
+9. Testing Heap without Hooks.
+10. Testing Heap with Hooks (STI/CLI Problem).
+11. More Heap Testing.
+12. Added Kill free Frames.
