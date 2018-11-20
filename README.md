@@ -19,6 +19,7 @@ Modified/Created Files
 * system/create.c
 * system/initialize.c
 * include/process.h
+* system/resched.c
 
 Implementations
 ---
@@ -34,4 +35,4 @@ Commit Log
 4. Testing frames functions.
 5. Added support for initialize, get, set and print PDs and PTs.
 6. Testing pages functions.
-7. Turning On Paging
+7. Turning On Paging and Adding all necessary DS to Procs.
