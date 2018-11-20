@@ -3,6 +3,8 @@
 
 // Global Var
 unsigned int sharedPTs[SPTS];
+unsigned long pfErrCode;
+unsigned long pfCount;
 
 // Sets the Shared Page Tables
 syscall	setSharedPTs() {

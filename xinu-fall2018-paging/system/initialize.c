@@ -209,6 +209,9 @@ void initialize_paging() {
 	setPDBR(proctab[currpid].prpd);
 
 	// Install Page Fault Handler
+	pfErrCode = 0;
+	pfCount = 0;
+	set_evec(PF_VECTOR, (uint32)pfisr);
 
 	// Enable Paging
 	enablePaging();

@@ -38,6 +38,12 @@
 
 #define NDESC		5	/* must be odd to make procent 4N bytes	*/
 
+// Struct for Heap, modeled after memblk - Anirudh Pal
+struct heapblk {
+	struct heapblk* mnext;	// Pointer to Next Block
+	uint32 mlength;					// Length of Current Block
+};
+
 /* Definition of the process table (multiple of 32 bits) */
 
 struct procent {		/* Entry in the process table		*/
@@ -53,6 +59,9 @@ struct procent {		/* Entry in the process table		*/
 	bool8	prhasmsg;	/* Nonzero iff msg is valid		*/
 	int16	prdesc[NDESC];	/* Device descriptors for process	*/
 	unsigned int prpd;	// Page Directory - Anirudh Pal
+	unsigned int prpages;	// Pages Allocated - Anirudh Pal
+	struct heapblk prvheap; // Virtual Heap Head - Anirudh Pal
+	bool8 prhasheap;	// Virtual Heap Initialized - Anirudh Pal
 };
 
 /* Marker for the top of a process stack (used to help detect overflow)	*/

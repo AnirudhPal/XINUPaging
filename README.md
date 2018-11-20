@@ -10,6 +10,11 @@ Modified/Created Files
 * paging/frame.c
 * paging/page.c
 * paging/pregs.c
+* system/vcreate.c
+* system/vgetmem.c
+* system/vfreemem.c
+* system/pfisr.S
+* system/pfhandler.c
 
 ### Modified
 
@@ -36,3 +41,4 @@ Commit Log
 5. Added support for initialize, get, set and print PDs and PTs.
 6. Testing pages functions.
 7. Turning On Paging and Adding all necessary DS to Procs.
+8. Added support for Heap

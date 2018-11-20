@@ -1,5 +1,4 @@
-/* create.c - create, newpid */
-
+// Modifed create() - Anirudh Pal
 #include <xinu.h>
 
 local	int newpid();
@@ -7,12 +6,13 @@ local	int newpid();
 #define	roundew(x)	( (x+3)& ~0x3)
 
 /*------------------------------------------------------------------------
- *  create  -  Create a process to start running a function on x86
+ *  vcreate  -  Create a process to start running a function on x86
  *------------------------------------------------------------------------
  */
-pid32	create(
+pid32	vcreate(
 	  void		*funcaddr,	/* Address of the function	*/
 	  uint32	ssize,		/* Stack size in words		*/
+    uint16  hsize_in_pages, // No: of Pages - Anirudh Pal
 	  pri16		priority,	/* Process priority > 0		*/
 	  char		*name,		/* Name (for debugging)		*/
 	  uint32	nargs,		/* Number of args that follow	*/
@@ -59,10 +59,11 @@ pid32	create(
 	prptr->prdesc[2] = CONSOLE;
 
 	/** Anirudh Pal Stuff **/
-	prptr->prpd = getPD();		// Get PD
-	prptr->prpages = 0;				// No Pages
-	prptr->prvheap = NULL;		// Empty Node
-	prptr->prhasheap = FALSE;	// No Heap
+	prptr->prpd = getPD();		                       // Get PD
+	prptr->prpages = hsize_in_pages;	               // No: of Pages
+	prptr->prvheap.mnext = V_FRAME * NBPG;		       // VAddress of Heap
+  prptr->prvheap.mlength = prptr->prpages * NBPG;  // Size of Heap
+	prptr->prhasheap = FALSE;	                       // No Heap
 	/** End of Anirudh Pal Stuff **/
 
 	/* Initialize stack as if the process was called		*/

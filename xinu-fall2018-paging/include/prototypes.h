@@ -696,6 +696,22 @@ extern	syscall	printPT(unsigned int);
 /* in file pregs.c */
 extern	syscall enablePaging(void);
 extern	syscall	setPDBR(unsigned int);
+extern	unsigned long	getCR2(void);
+
+/* in file vcreate.c */
+extern	pid32	vcreate(void *, uint32, uint16, pri16, char *, uint32, ...);
+
+/* in file vgetmem.c */
+extern	char	*vgetmem(uint32);
+
+/* in file vfreemem.c */
+extern	syscall	vfreemem(char *, uint32);
+
+/* in file pfisr.S */
+extern	void	pfisr(void);
+
+/* in file pfhandler.c */
+extern	interrupt pfhandler(void);
 /** End of Anirudh Pal Stuff **/
 
 /* NETWORK BYTE ORDER CONVERSION NOT NEEDED ON A BIG-ENDIAN COMPUTER */
