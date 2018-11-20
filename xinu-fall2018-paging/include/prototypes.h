@@ -714,6 +714,8 @@ extern	void	pfisr(void);
 extern	interrupt pfhandler(void);
 
 /* in file createVApps.c */
+extern void testA(void);
+extern void testB(void);
 extern void testP(unsigned int);
 extern void testPGF(unsigned int);
 

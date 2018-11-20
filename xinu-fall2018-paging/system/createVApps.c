@@ -86,3 +86,53 @@ void testPGF(unsigned int pg) {
 	kprintf("\nPID: %d -> Done Using Heap\n", currpid);
 	restore(mask);
 }
+
+// Proc
+void testA() {
+	// Print
+	intmask mask = disable();
+	kprintf("PID: %d -> Using 1 Byte\n", currpid);
+	restore(mask);
+
+	char* ptr = (char*)vgetmem(1);
+	*ptr = 'A';
+
+	// Print
+	mask = disable();
+	kprintf("PID: %d -> Used 1 Byte, First Add: 0x%x, First Val: %c\n", currpid, ptr, *(ptr));
+	restore(mask);
+
+	while(TRUE) {
+		if(*ptr != 'A') {
+			// Print
+			mask = disable();
+			kprintf("PID: %d -> Something is Wrong Val: %c\n", currpid, *(ptr));
+			restore(mask);
+		}
+	}
+}
+
+// Proc
+void testB() {
+	// Print
+	intmask mask = disable();
+	kprintf("PID: %d -> Using 1 Byte\n", currpid);
+	restore(mask);
+
+	char* ptr = (char*)vgetmem(1);
+	*ptr = 'B';
+
+	// Print
+	mask = disable();
+	kprintf("PID: %d -> Used 1 Byte, First Add: 0x%x, First Val: %c\n", currpid, ptr, *(ptr));
+	restore(mask);
+
+	while(TRUE) {
+		if(*ptr != 'B') {
+			// Print
+			mask = disable();
+			kprintf("PID: %d -> Something is Wrong Val: %c\n", currpid, *(ptr));
+			restore(mask);
+		}
+	}
+}

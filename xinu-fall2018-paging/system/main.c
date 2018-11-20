@@ -45,6 +45,16 @@ process	main(void)
 	resume(vcreate(testPGF, 3072, 2072, 50, "testPGF", 1, 2072));
 	kprintf("\nTesting 2072 Page Usage\n");
 	resume(vcreate(testPGF, 3072, 2072, 50, "testPGF", 1, 2072));
+	intmask mask = disable();
+	kprintf("\nTesting Same Virtual Address\n");
+	restore(mask);
+	int AP = vcreate(test1A, 1024, 1, INITPRIO, "test1A", 0);
+	int BP = vcreate(test1B, 1024, 1, INITPRIO, "test1B", 0);
+	resume(AP);
+	resume(BP);
+	sleep(3);
+	kill(AP);
+	kill(BP);
 
 	/**
 	kprintf("\n...creating a shell\n");
