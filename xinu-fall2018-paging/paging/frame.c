@@ -100,7 +100,7 @@ syscall setFrameType(unsigned int type, unsigned int frameNum) {
   intmask mask = disable();
 
   // Error Handeling
-  if((type != PD_FRAME && type != PT_FRAME) || frameNum < NDSFRAMES + FRAME0 || frameNum >= NFRAMES + FRAME0) {
+  if((type != PD_FRAME && type != PT_FRAME) || frameNum < FRAME0 || frameNum >= NFRAMES + FRAME0) {
     // Restore and Return
     restore(mask);
     return SYSERR;
