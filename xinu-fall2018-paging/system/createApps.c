@@ -75,3 +75,42 @@ void testFrames() {
   // Print Frames
   printFrames();
 }
+
+// Test Pages
+void testPages() {
+  // Set Shared Pages
+  setSharedPTs();
+
+  // Print Frames
+  printFrames();
+
+  // Get PD
+  getPD();
+
+  // Print Frames
+  printFrames();
+
+  // Get PT
+  getPT();
+
+  // Print Frames
+  printFrames();
+
+  // Print PTs
+  int i;
+  for(i = 0; i < SPTS; i++) {
+    printPT(FRAME0 + i);
+  }
+
+  // Print PD
+  printPD(FRAME0 + i + 1);
+
+  // Print PT
+  printPT(FRAME0 + i + 2);
+
+  // Free Frames
+  freeFrames(currpid);
+
+  // Print Frames
+  printFrames();
+}
