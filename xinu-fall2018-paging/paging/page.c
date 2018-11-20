@@ -1,4 +1,4 @@
-i// Import Libs
+// Import Libs
 #include<xinu.h>
 
 // Global Var
