@@ -1,6 +1,9 @@
 // Import Libs
 #include<xinu.h>
 
+// Global Var
+extern frametab[NFRAMES];
+
 // Initialize Frames
 syscall initFrames() {
   // Disable Interrupts
