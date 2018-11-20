@@ -24,12 +24,11 @@ void pfhandler() {
 	unsigned int PDEInd = fadd >> 22;
 	if(procPD[PDEInd].pd_pres == 0) {
 		procPD[PDEInd].pd_pres = 1;
-		procPD[PDEInd].pd_write = 1;
 		procPD[PDEInd].pd_base = getPT();
 
 		// Hook
-		#ifdef TALK
-		//hook_ptable_create((unsigned int)(frametab[procPD[PDEInd].pd_base - FRAME0].loc));
+		#ifdef VERBOSE
+		hook_ptable_create((unsigned int)procPD[PDEInd].pd_base);
 		#endif
 	}
 
@@ -41,7 +40,6 @@ void pfhandler() {
 	unsigned int PTEInd = fadd >> (10 + 12);
 	if(procPT[PTEInd].pt_pres == 0) {
 		procPT[PTEInd].pt_pres = 1;
-		procPT[PTEInd].pt_write = 1;
 		procPT[PTEInd].pt_base = getPFrame();
 	}
 

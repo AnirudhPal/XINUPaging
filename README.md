@@ -43,9 +43,10 @@ Commit Log
 4. Testing frames functions.
 5. Added support for initialize, get, set and print PDs and PTs.
 6. Testing pages functions.
-7. Turning On Paging and Adding all necessary DS to Procs.
-8. Added support for Heap.
-9. Testing Heap without Hooks.
-10. Testing Heap with Hooks (STI/CLI Problem).
-11. More Heap Testing.
-12. Added Kill free Frames.
+7. Turning on paging and adding all necessary DS to procs.
+8. Added support for heap.
+9. Testing heap without hooks.
+10. Testing heap with hooks (STI/CLI problem).
+11. More heap testing.
+12. Added kill free frames.
+13. Enable all hooks.

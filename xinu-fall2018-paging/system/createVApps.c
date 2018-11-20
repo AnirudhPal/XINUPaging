@@ -33,6 +33,6 @@ void testP(unsigned pg) {
 
 	// Print
 	mask = disable();
-	kprintf("PID: %d -> Used All Pages, First Add: 0x%x, First Val: 0x%x\n", currpid, ptr, *(ptr));
+	kprintf("PID: %d -> Used All Pages, First Add: 0x%x, First Val: 0x%x, pfCount: %d\n", currpid, ptr, *(ptr), get_faults());
 	restore(mask);
 }

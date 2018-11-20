@@ -122,7 +122,15 @@ syscall	freeFrames(pid32 pid) {
   // Loop and Set Free
   int i;
   for(i = 0; i < NFRAMES; i++) {
+    // PID Match
     if(frametab[i].pid == pid) {
+      // PT Match
+      if(frametab[i].type == PT_FRAME) {
+        // Hook
+    		#ifdef VERBOSE
+    		hook_ptable_delete((unsigned int)frametab[i].fnum);
+    		#endif
+      }
       frametab[i].type = FREE_FRAME;                // Set as Free
       frametab[i].fnum = i + FRAME0;                // Actual Frame Number
       frametab[i].pid = 0;                          // Default PID
