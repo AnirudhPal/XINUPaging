@@ -59,10 +59,11 @@ pid32	create(
 	prptr->prdesc[2] = CONSOLE;
 
 	/** Anirudh Pal Stuff **/
-	prptr->prpd = getPD();		// Get PD
-	prptr->prpages = 0;				// No Pages
-	prptr->prvheap = NULL;		// Empty Node
-	prptr->prhasheap = FALSE;	// No Heap
+	prptr->prpd = getPD();				// Get PD
+	prptr->prpages = 0;						// No Pages
+	prptr->prvheap.mnext = NULL;	// VAddress of Heap
+  prptr->prvheap.mlength = 0;		// Empty Node
+	prptr->prhasheap = FALSE;			// No Heap
 	/** End of Anirudh Pal Stuff **/
 
 	/* Initialize stack as if the process was called		*/
