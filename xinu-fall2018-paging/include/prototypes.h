@@ -682,7 +682,7 @@ extern	syscall initFrames(void);
 extern	syscall printFrames(void);
 extern	unsigned int getDSFrame(void);
 extern	unsigned int getPFrame(void);
-extern	syscall setFrameType(unsigned int);
+extern	syscall setFrameType(unsigned int, unsigned int);
 extern	syscall	freeFrames(pid32);
 /** End of Anirudh Pal Stuff **/
 
