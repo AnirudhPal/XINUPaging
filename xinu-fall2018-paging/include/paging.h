@@ -80,6 +80,9 @@ typedef struct {
 // Hooks
 #define VERBOSE       1
 
+// Shared PT Count
+#define SPTS          5
+
 /* Structures */
 // Frame Data Structure
 typedef struct {
@@ -123,3 +126,6 @@ unsigned long pfCount;
 
 // Frame Table
 extern frame frametab[NFRAMES];
+
+// Shared PTs
+extern unsigned int sharedPTs[SPTS];

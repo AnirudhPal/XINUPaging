@@ -684,6 +684,13 @@ extern	unsigned int getDSFrame(void);
 extern	unsigned int getPFrame(void);
 extern	syscall setFrameType(unsigned int, unsigned int);
 extern	syscall	freeFrames(pid32);
+
+/* in file pages.c */
+extern	syscall	setSharedPTs(void);
+extern	unsigned int getPD(void);
+extern	unsgined int getPT(void);
+extern	syscall	printPD(unsigned int);
+extern	syscall	printPT(unsigned int);
 /** End of Anirudh Pal Stuff **/
 
 /* NETWORK BYTE ORDER CONVERSION NOT NEEDED ON A BIG-ENDIAN COMPUTER */
