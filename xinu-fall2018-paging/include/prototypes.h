@@ -692,6 +692,10 @@ extern	unsigned int getPD(void);
 extern	unsigned int getPT(void);
 extern	syscall	printPD(unsigned int);
 extern	syscall	printPT(unsigned int);
+
+/* in file pregs.c */
+extern	syscall enablePaging(void);
+extern	syscall	setPDBR(unsigned int);
 /** End of Anirudh Pal Stuff **/
 
 /* NETWORK BYTE ORDER CONVERSION NOT NEEDED ON A BIG-ENDIAN COMPUTER */

@@ -58,6 +58,10 @@ pid32	create(
 	prptr->prdesc[1] = CONSOLE;
 	prptr->prdesc[2] = CONSOLE;
 
+	/** Anirudh Pal Stuff **/
+	prptr->prpd = getPD();
+	/** End of Anirudh Pal Stuff **/
+
 	/* Initialize stack as if the process was called		*/
 
 	*saddr = STACKMAGIC;

@@ -15,6 +15,9 @@ extern	void xdone(void);	/* System "shutdown" procedure		*/
 static	void sysinit(); 	/* Internal system initialization	*/
 extern	void meminit(void);	/* Initializes the free memory list	*/
 
+// Initializes Paging - Anirudh Pal
+void initialize_paging();
+
 /* Declarations of major kernel variables */
 
 struct	procent	proctab[NPROC];	/* Process table			*/
@@ -43,16 +46,19 @@ sid32   bs_init_sem;
  */
 
 void	nulluser()
-{	
+{
 	struct	memblk	*memptr;	/* Ptr to memory block		*/
 	uint32	free_mem;		/* Total amount of free memory	*/
-	
+
 	/* Initialize the system */
-		
+
 	sysinit();
 
+	// Initializes Paging - Anirudh Pal
+	initialize_paging();
+
 	kprintf("\n\r%s\n\n\r", VERSION);
-	
+
 	/* Output Xinu memory layout */
 	free_mem = 0;
 	for (memptr = memlist.mnext; memptr != NULL;
@@ -121,9 +127,9 @@ static	void	sysinit()
 	/* Initialize the interrupt vectors */
 
 	initevec();
-	
+
 	/* Initialize free memory list */
-	
+
 	meminit();
 
 	/* Initialize system variables */
@@ -146,7 +152,7 @@ static	void	sysinit()
 		prptr->prprio = 0;
 	}
 
-	/* Initialize the Null process entry */	
+	/* Initialize the Null process entry */
 
 	prptr = &proctab[NULLPROC];
 	prptr->prstate = PR_CURR;
@@ -156,7 +162,7 @@ static	void	sysinit()
 	prptr->prstklen = NULLSTK;
 	prptr->prstkptr = 0;
 	currpid = NULLPROC;
-	
+
 	/* Initialize semaphores */
 
 	for (i = 0; i < NSEM; i++) {
@@ -186,6 +192,26 @@ static	void	sysinit()
         bs_init_sem = semcreate(1);
 
 	return;
+}
+
+// Initializes Paging - Anirudh Pal
+void initialize_paging() {
+	// Initialize Frames
+	initFrames();
+
+	// Initialize Shared PTs
+	setSharedPTs();
+
+	// Create PD
+	proctab[currpid].prpd = getPD();
+
+	// Set CR3
+	setPDBR(proctab[currpid].prpd);
+
+	// Install Page Fault Handler
+
+	// Enable Paging
+	enablePaging();
 }
 
 int32	stop(char *s)
