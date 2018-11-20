@@ -50,3 +50,4 @@ Commit Log
 11. More heap testing.
 12. Added kill free frames.
 13. Enable all hooks.
+14. Added vfreemem() and tests.

@@ -78,7 +78,7 @@ typedef struct {
 #define PF_VECTOR     14
 
 // Hooks
-#define VERBOSE       1
+//#define VERBOSE       1
 
 // Shared PT Count
 #define SPTS          5

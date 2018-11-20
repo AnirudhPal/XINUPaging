@@ -35,6 +35,16 @@ process	main(void)
 	resume(vcreate(testP, 3072, 2072, 50, "testP", 1, 2072));
 	kprintf("\nTesting 2072 Page Usage\n");
 	resume(vcreate(testP, 3072, 2072, 50, "testP", 1, 2072));
+	kprintf("\nTesting 1 Page Usage\n");
+	resume(vcreate(testPGF, 3072, 1, 50, "testPGF", 1, 1));
+	kprintf("\nTesting 2 Page Usage\n");
+	resume(vcreate(testPGF, 3072, 2, 50, "testPGF", 1, 2));
+	kprintf("\nTesting 1024 Page Usage\n");
+	resume(vcreate(testPGF, 3072, 1024, 50, "testPGF", 1, 1024));
+	kprintf("\nTesting 2072 Page Usage\n");
+	resume(vcreate(testPGF, 3072, 2072, 50, "testPGF", 1, 2072));
+	kprintf("\nTesting 2072 Page Usage\n");
+	resume(vcreate(testPGF, 3072, 2072, 50, "testPGF", 1, 2072));
 
 	/**
 	kprintf("\n...creating a shell\n");
