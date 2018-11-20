@@ -675,6 +675,7 @@ extern	syscall	yield(void);
 /** Anirudh Pal Stuff **/
 /* in file createApps.c */
 extern	void testHeap(void);
+extern	void testFrames(void);
 
 /* in file frames.c */
 extern	syscall initFrames(void);

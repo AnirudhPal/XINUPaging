@@ -17,6 +17,8 @@ process	main(void)
 	// Testing create() Proc
 	kprintf("\nTesting Normal Heap\n");
 	resume(create(testHeap, 1024, 50, "testHeap", 0));
+	kprintf("\nTesting Frames\n");
+	resume(create(testHeap, 1024, 50, "testFrames", 0));
 
 	/**
 	kprintf("\n...creating a shell\n");

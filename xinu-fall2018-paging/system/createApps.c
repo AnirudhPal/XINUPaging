@@ -9,9 +9,7 @@
 // Test Stack
 void testHeap() {
 	// Print
-	intmask mask = disable();
 	kprintf("PID: %d -> Using Stack\n", currpid);
-	restore(mask);
 
   // Get
 	int i;
@@ -26,14 +24,55 @@ void testHeap() {
 	for(i = 0; i < STK_MEM / TST_BYT; i++) {
 		if(*(ptr + i) != 0x123ABCEF) {
 			// Print
-			mask = disable();
 			kprintf("PID: %d -> Something is Wrong, Val: 0x%x\n", currpid, *(ptr + i));
-			restore(mask);
 		}
 	}
 
 	// Print
-	mask = disable();
 	kprintf("PID: %d -> Used Stack, First Add: 0x%x, First Val: 0x%x\n", currpid, ptr, *(ptr));
-	restore(mask);
+}
+
+// Test Frames
+void testFrames() {
+  // Initialize Frames
+  initFrames();
+
+  // Get All DS Frames
+  int i;
+  kprintf("DS frameNum: ");
+  for(i = 0; i < NDSFRAMES; i++) {
+    // Get DS Frame
+    unsigned int frameNum = getDSFrame();
+
+    // Parse Frame Number
+    kprintf("%d\b\b\b\b", frameNum);
+
+    // Set as PD
+    setFrameType(PD_FRAME, frameNum);
+  }
+  kprintf("\n");
+
+  // Print Frames
+  printFrames();
+
+  // Get All P Frames
+  int i;
+  kprintf("P frameNum: ");
+  for(i = NDSFRAMES; i < NFRAMES; i++) {
+    // Get DS Frame
+    unsigned int frameNum = getPFrame();
+
+    // Parse Frame Number
+    kprintf("%d\b\b\b\b", frameNum);
+  }
+  kprintf("\n");
+
+  // Print Frames
+  printFrames();
+
+  // Free Frames
+  freeFrames(currpid);
+
+  // Print Frames
+  printFrames();
 }
