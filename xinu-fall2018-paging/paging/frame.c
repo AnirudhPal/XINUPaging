@@ -2,7 +2,7 @@
 #include<xinu.h>
 
 // Global Var
-extern frame frametab[NFRAMES];
+frame frametab[NFRAMES];
 
 // Initialize Frames
 syscall initFrames() {
@@ -122,7 +122,7 @@ syscall	freeFrames(pid32 pid) {
   // Loop and Set Free
   int i;
   for(i = 0; i < NFRAMES; i++) {
-    if(frametab[i].pid = pid) {
+    if(frametab[i].pid == pid) {
       frametab[i].type = FREE_FRAME;                // Set as Free
       frametab[i].fnum = i + FRAME0;                // Actual Frame Number
       frametab[i].pid = 0;                          // Default PID
