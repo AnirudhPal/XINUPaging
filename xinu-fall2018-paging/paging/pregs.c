@@ -9,10 +9,6 @@ syscall	enablePaging() {
   // Disable Interrupts
   intmask mask = disable();
 
-  // Disable Interrupts
-	intmask mask;
-  	mask = disable();
-
 	// Get CR0
 	asm("pushl %eax;"
 	    "movl %cr0, %eax;"
