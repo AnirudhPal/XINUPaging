@@ -15,6 +15,7 @@ Modified/Created Files
 * system/vfreemem.c
 * system/pfisr.S
 * system/pfhandler.c
+* system/createVApps.c
 
 ### Modified
 
@@ -42,3 +43,4 @@ Commit Log
 6. Testing pages functions.
 7. Turning On Paging and Adding all necessary DS to Procs.
 8. Added support for Heap
+9. Testing Heap without Hooks

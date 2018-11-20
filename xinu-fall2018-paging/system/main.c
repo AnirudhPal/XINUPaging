@@ -23,6 +23,8 @@ process	main(void)
 	kprintf("\nTesting Pages\n");
 	resume(create(testPages, 1024, 50, "testPages", 0));
 	**/
+	kprintf("\nTesting 2 Page Usage\n");
+	resume(vcreate(test2P, 3072, 2, 50, "test2P", 0));
 
 	/**
 	kprintf("\n...creating a shell\n");

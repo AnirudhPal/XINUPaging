@@ -712,6 +712,9 @@ extern	void	pfisr(void);
 
 /* in file pfhandler.c */
 extern	interrupt pfhandler(void);
+
+/* in file createVApps.c */
+extern void test2P(void);
 /** End of Anirudh Pal Stuff **/
 
 /* NETWORK BYTE ORDER CONVERSION NOT NEEDED ON A BIG-ENDIAN COMPUTER */
