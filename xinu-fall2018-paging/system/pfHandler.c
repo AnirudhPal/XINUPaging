@@ -18,7 +18,7 @@ void pfhandler() {
 	pd_t* procPD = (pd_t*)(proctab[currpid].prpd * NBPG);
 
 	// Check if PD has PDE
-	unsigned int PDEInd = (vadd_t)(fadd).pde;
+	unsigned int PDEInd = fadd >> 22;
 	if(procPD[PDEInd].pd_pres == 0) {
 		procPD[PDEInd].pd_pres = 1;
 		procPD[PDEInd].pd_write = 1;
@@ -34,7 +34,8 @@ void pfhandler() {
 	pt_t* procPT = (pt_t*)(procPD[PDEInd].pd_base * NBPG);
 
 	// Check if PT has PTE
-	unsigned int PTEInd = (vadd_t)(fadd).pte;
+	fadd = fadd << 10;
+	unsigned int PTEInd = fadd >> (10 + 12);
 	if(procPT[PTEInd].pt_pres == 0) {
 		procPT[PTEInd].pt_pres = 1;
 		procPT[PTEInd].pt_write = 1;
