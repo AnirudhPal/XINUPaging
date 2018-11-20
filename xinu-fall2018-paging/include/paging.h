@@ -52,3 +52,73 @@ typedef struct {
 
 #define MAX_ID		7		/* You get 8 mappings, 0 - 7 */
 #define MIN_ID          0
+
+/** Anirudh Pal Stuff **/
+/* Macro Vars */
+// Frame Types
+#define FREE_FRAME    0
+#define PD_FRAME      1
+#define PG_FRAME      2
+
+// Frame Entries
+#define FRAME_ENTRIES 1024
+
+// Dev Section
+#define DEV_PDE       576
+#define DEV_FRAME     589824
+
+// Virtual Frame
+#define V_FRAME       4096
+
+// Data Structure Frames
+#define NDSFRAMES     1000
+
+// Page Fault
+#define PF_VECTOR     14
+
+// Hooks
+#define VERBOSE       1
+
+/* Structures */
+// Frame Data Structure
+typedef struct {
+  unsigned int type;   // Type of Frame
+  unsigned int fnum;   // Actual Frame Number
+  pid32 pid;           // PID of Creater
+  unsigned long addr;  // Physical Address
+} frame;
+
+// Virtual Address Structure
+typedef struct {
+  unsigned int offset: 12 // Page Offset
+  unsigned int pte : 10   // Page Table Entry
+  unsigned int pde : 10   // Page Directory Entry
+} vadd_t;
+
+// CR0 Structure
+typedef struct {
+  unsigned long lsb : 31  // Ignore
+  unsigned int pg : 1     // Paging
+} cr0_t;
+
+// CR3 Structure
+typedef struct {
+  unsigned int lsb : 12     // Ignore
+  unsigned long frame : 20  // Frame Number
+} cr3_t;
+
+// Page Fault Error Code Structure
+typedef struct {
+  unsigned int p : 1      // Present Bit
+  unsigned long msb : 31  // Ignore
+} pfErrCode_t;
+
+/* Global Vars */
+// Page Fault Error Code
+unsigned long pfErrCode;
+
+// Page Fault Count
+unsigned long pfCount;
+
+// Frame Table
+extern frame frametab[NFRAMES];
