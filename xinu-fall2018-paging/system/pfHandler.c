@@ -16,7 +16,7 @@ void pfhandler() {
 
   // Error Code Handeling
 	if((pfErrCode & 0x1) != 0) {
-		kprintf("pfhandler(): Unexpected Error Code, Err: 0x%x\n", err_code);
+		kprintf("pfhandler(): Unexpected Error Code, Err: 0x%x\n", pfErrCode);
     restore(mask);
     kill(currpid);
 		return;
