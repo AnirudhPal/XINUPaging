@@ -14,6 +14,22 @@ void pfhandler() {
 	hook_pfault((char*)fadd);
 	#endif
 
+  // Error Code Handeling
+	if((err_code & 0x1) != 0) {
+		kprintf("pfhandler(): Unexpected Error Code, Err: 0x%x\n", err_code);
+    restore(mask);
+    kill(currpid);
+		return;
+	}
+
+	// Error Handeling
+	if(fadd < V_FRAME * NBPG || fadd > ((V_FRAME + proctab[currpid].prpages) * NBPG)) {
+		kprintf("pfhandler(): Address out of Range, Add: 0x%x\n", fadd);
+    restore(mask);
+    kill(currpid);
+		return;
+	}
+
 	// Increment Count
 	pfCount++;
 
@@ -48,5 +64,5 @@ void pfhandler() {
 
 	// Restore and Return
   restore(mask);
-  return OK;
+  return;
 }
