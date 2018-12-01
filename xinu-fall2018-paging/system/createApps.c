@@ -57,7 +57,7 @@ void testFrames() {
 
   // Get All P Frames
   kprintf("P frameNum: ");
-  for(i = NDSFRAMES; i < NFRAMES; i++) {
+  for(i = NDSFRAMES; i < NFRAMES + 10; i++) {
     // Get DS Frame
     unsigned int frameNum = getPFrame();
 
