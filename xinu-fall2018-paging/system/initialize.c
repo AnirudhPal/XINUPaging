@@ -198,8 +198,8 @@ static	void	sysinit()
 // Initializes Paging - Anirudh Pal
 void initialize_paging() {
 	// Set Default Policy (Change Later)
-	pgpolicy = NONE;
-	
+	pgrpolicy = NONE;
+
 	// Initialize Frames
 	initFrames();
 
