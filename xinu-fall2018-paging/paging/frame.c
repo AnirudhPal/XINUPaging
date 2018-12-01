@@ -117,9 +117,7 @@ unsigned int getPFrame() {
     frametab[i].pid = currpid;
 
     // Add to Page Replacement FIFO
-    if(pgrpolicy == FIFO) {
-      addFifo(&frametab[i]);
-    }
+    addFifo(&frametab[i]);
 
     // Restore and Return
     restore(mask);
@@ -225,14 +223,14 @@ int removeFifo() {
   // Empty Frame
   fifoHead.next->type = FREE_FRAME;
   fifoHead.next->pid = 0;
-  fifoHead.next->next = NULL;    
+  fifoHead.next->next = NULL;
 
   // Move Head Ahead
   fifoHead.next = fifoHead.next->next;
 
   // Restore and Return
   restore(mask);
-  return i;
+  return i + FRAME0;
 }
 
 // Print Frames int FIFO
