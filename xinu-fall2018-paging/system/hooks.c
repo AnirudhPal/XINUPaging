@@ -22,5 +22,5 @@ void hook_pswap_out(unsigned int pagenum, int framenb) {
 // Return Page Fault Count
 int get_faults() {
 	// Return
-	return pfErrCode; 
+	return pfCount; 
 }

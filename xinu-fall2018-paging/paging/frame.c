@@ -3,11 +3,22 @@
 
 // Global Var
 frame frametab[NFRAMES];
+frame fifoHead;
 
 // Initialize Frames
 syscall initFrames() {
   // Disable Interrupts
   intmask mask = disable();
+
+
+  // Set Dummy Head
+  if(pgpolicy == FIFO) {
+  		fifoHead.type = FIFO_HEAD;                  // Set as Head
+      fifoHead.fnum = 0;                          // Ignore
+      fifoHead.pid = 0;                           // Ignore
+      fifoHead.addr = NULL;                       // Ignore
+      fifoHead.next = NULL;                       // Nothing on Q
+  }
 
   // Loop and Set Free
   int i;
@@ -16,6 +27,7 @@ syscall initFrames() {
     frametab[i].fnum = i + FRAME0;                // Actual Frame Number
     frametab[i].pid = 0;                          // Default PID
     frametab[i].addr = frametab[i].fnum * NBPG;   // Physical Address
+    frametab[i].next = NULL;                      // Next Frame in FIFO
   }
 
   // Restore and Return
@@ -72,7 +84,7 @@ unsigned int getPFrame() {
   // Disable Interrupts
   intmask mask = disable();
 
-  // Loop and Set Free
+  // Loop and Set Used
   int i;
   for(i = NDSFRAMES; i < NFRAMES; i++) {
     // If not FREE
@@ -83,10 +95,22 @@ unsigned int getPFrame() {
       // Set PID
       frametab[i].pid = currpid;
 
+      // Add to Page Replacement FIFO
+      if(pgrpolicy == FIFO) {
+        addFifo(&frametab[i]);
+      }
+
       // Restore and Return
       restore(mask);
       return frametab[i].fnum;
     }
+  }
+
+  // Use Page Replacement
+  if(pgrpolicy == FIFO) {
+    // Remove Page
+    removeFifo();
+    // Set and Return Page
   }
 
   // Restore and Return
@@ -137,6 +161,59 @@ syscall	freeFrames(pid32 pid) {
       frametab[i].addr = frametab[i].fnum * NBPG;   // Physical Address
     }
   }
+
+  // Restore and Return
+  restore(mask);
+  return OK;
+}
+
+// Add FIFO
+syscall addFifo(frame* pFrame) {
+  // Disable Interrupts
+  intmask mask = disable();
+
+  // Error
+  if(pFrame == NULL) {
+    restore(mask);
+    return SYSERR;
+  }
+
+  // Get Head
+  frame* Head = &fifoHead;
+
+  // Go to End (Optimize of Required)
+  while(Head->next != NULL) {
+    Head = Head->next;
+  }
+
+  // Add Frame
+  Head->next = pFrame;
+
+  kprintf("Adding Frame: %d\n", pFrame->fnum);
+
+  // Restore and Return
+  restore(mask);
+  return OK;
+}
+
+// Remove FIFO
+syscall removeFifo() {
+  // Disable Interrupts
+  intmask mask = disable();
+
+  // Error
+  if(fifoHead.next == NULL) {
+    restore(mask);
+    return SYSERR;
+  }
+
+  kprintf("Removing Frame: %d\n", fifoHead.next->fnum);
+
+  // Empty Frame
+  fifoHead.next->type = FREE_FRAME;
+
+  // Move Head Ahead
+  fifoHead.next = fifoHead.next->next;
 
   // Restore and Return
   restore(mask);

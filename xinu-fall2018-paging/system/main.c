@@ -15,16 +15,17 @@ process	main(void)
 	//psinit();
 
 	// Testing create() Proc
+	/*
 	kprintf("\nTesting Normal Heap\n");
 	resume(create(testHeap, 1024, 50, "testHeap", 0));
-	/**
+	*/
 	kprintf("\nTesting Frames\n");
 	resume(create(testFrames, 1024, 50, "testFrames", 0));
 	kprintf("\nTesting Pages\n");
 	resume(create(testPages, 1024, 50, "testPages", 0));
-	**/
 
 	// Testing vcreate() Proc
+	/*
 	kprintf("\nTesting 1 Page Usage\n");
 	resume(vcreate(testP, 3072, 1, 50, "testP", 1, 1));
 	kprintf("\nTesting 2 Page Usage\n");
@@ -55,6 +56,7 @@ process	main(void)
 	sleep(3);
 	kill(AP);
 	kill(BP);
+	*/
 
 	/**
 	kprintf("\n...creating a shell\n");

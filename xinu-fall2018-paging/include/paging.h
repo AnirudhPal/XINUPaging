@@ -42,7 +42,7 @@ typedef struct {
 
 #define NBPG		4096	/* number of bytes per page	*/
 #define FRAME0		1024	/* zero-th frame		*/
-#define NFRAMES		3072	/* number of frames		*/
+#define NFRAMES		1050//3072	/* number of frames		*/
 
 #define MAP_SHARED 1
 #define MAP_PRIVATE 2
@@ -60,6 +60,7 @@ typedef struct {
 #define PD_FRAME      1
 #define PT_FRAME      2
 #define PG_FRAME      3
+#define FIFO_HEAD     4
 
 // Frame Entries
 #define FRAME_ENTRIES 1024
@@ -83,6 +84,11 @@ typedef struct {
 // Shared PT Count
 #define SPTS          5
 
+// Page Replacement Policies
+#define FIFO          0
+#define GLB_CLK       1
+#define NONE          2
+
 /* Structures */
 // Frame Data Structure
 typedef struct {
@@ -90,6 +96,7 @@ typedef struct {
   unsigned int fnum;   // Actual Frame Number
   pid32 pid;           // PID of Creater
   unsigned long addr;  // Physical Address
+  frame* next;         // Next Frame in FIFO (Only in Virtual Pages)
 } frame;
 
 // Virtual Address Structure
@@ -123,6 +130,12 @@ unsigned long pfErrCode;
 
 // Page Fault Count
 unsigned long pfCount;
+
+// Page Replacement Policy
+uint16 pgrpolicy;
+
+// FIFO Dummy Head
+frame fifoHead;
 
 // Frame Table
 extern frame frametab[NFRAMES];

@@ -161,6 +161,7 @@ Commit Log
 14. Added vfreemem() and tests.
 15. Added more testing.
 16. Added address check in pfhandler().
+17. Added fifo structure and functions.
 
 Virtual Heap Test Output
 ---

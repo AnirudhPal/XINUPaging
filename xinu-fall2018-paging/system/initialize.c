@@ -17,6 +17,7 @@ extern	void meminit(void);	/* Initializes the free memory list	*/
 
 // Initializes Paging - Anirudh Pal
 void initialize_paging();
+uint16 pgrpolicy;
 
 /* Declarations of major kernel variables */
 
@@ -196,6 +197,9 @@ static	void	sysinit()
 
 // Initializes Paging - Anirudh Pal
 void initialize_paging() {
+	// Set Default Policy (Change Later)
+	pgpolicy = NONE;
+	
 	// Initialize Frames
 	initFrames();
 
