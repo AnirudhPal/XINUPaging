@@ -223,7 +223,6 @@ int removeFifo() {
   // Empty Frame
   fifoHead.next->type = FREE_FRAME;
   fifoHead.next->pid = 0;
-  fifoHead.next->next = NULL;
 
   // Move Head Ahead
   fifoHead.next = fifoHead.next->next;
