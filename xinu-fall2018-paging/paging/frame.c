@@ -230,7 +230,7 @@ int removeFifo() {
 
   // Restore and Return
   restore(mask);
-  return i + FRAME0;
+  return i - FRAME0;
 }
 
 // Print Frames int FIFO
