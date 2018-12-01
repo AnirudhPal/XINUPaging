@@ -18,12 +18,11 @@ process	main(void)
 	/*
 	kprintf("\nTesting Normal Heap\n");
 	resume(create(testHeap, 1024, 50, "testHeap", 0));
-	*/
 	kprintf("\nTesting Frames\n");
 	resume(create(testFrames, 1024, 50, "testFrames", 0));
 	kprintf("\nTesting Pages\n");
 	resume(create(testPages, 1024, 50, "testPages", 0));
-
+	*/
 	// Testing vcreate() Proc
 	/*
 	kprintf("\nTesting 1 Page Usage\n");
@@ -57,7 +56,9 @@ process	main(void)
 	kill(AP);
 	kill(BP);
 	*/
-
+	// Testing FIFO
+	kprintf("\nTesting FIFO\n");
+	resume(create(testFifo, 1024, 50, "testFifo", 0));
 	/**
 	kprintf("\n...creating a shell\n");
 	recvclr();

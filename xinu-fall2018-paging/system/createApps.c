@@ -57,7 +57,7 @@ void testFrames() {
 
   // Get All P Frames
   kprintf("P frameNum: ");
-  for(i = NDSFRAMES; i < NFRAMES + 10; i++) {
+  for(i = NDSFRAMES; i < NFRAMES; i++) {
     // Get DS Frame
     unsigned int frameNum = getPFrame();
 
@@ -113,4 +113,27 @@ void testPages() {
 
   // Print Frames
   printFrames();
+}
+
+// Test Fifo
+void testFifo() {
+	// Get All Virtual Pages
+	int i;
+	for(i = NDSFRAMES; i < NFRAMES; i++) {
+		if(getPFrame() == SYSERR) {
+			kprintf("Error on getPFrame()\n");
+		}
+	}
+	kprintf("Got all Page Frames");
+
+	// Get More than All Pages
+	for(i = NDSFRAMES; i < NFRAMES; i++) {
+		if(getPFrame() == SYSERR) {
+			kprintf("Error on getPFrame()\n");
+		}
+	}
+	kprintf("Got 50 More");
+
+	// Free Frames
+  freeFrames(currpid);
 }
