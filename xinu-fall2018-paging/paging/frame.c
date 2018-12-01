@@ -217,19 +217,20 @@ int removeFifo() {
     return SYSERR;
   }
 
-  // Save Number
-  int i = fifoHead.next->fnum;
-
-  // Empty Frame
-  fifoHead.next->type = FREE_FRAME;
-  fifoHead.next->pid = 0;
+  // Save Frame
+  frame* pFrame = fifoHead.next;
 
   // Move Head Ahead
   fifoHead.next = fifoHead.next->next;
 
+  // Empty Frame
+  pFrame->type = FREE_FRAME;
+  pFrame->pid = 0;
+  pFrame->next = NULL;
+
   // Restore and Return
   restore(mask);
-  return i - FRAME0;
+  return (pFrame->fnum) - FRAME0;
 }
 
 // Print Frames int FIFO
