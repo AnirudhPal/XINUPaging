@@ -207,7 +207,7 @@ syscall removeFifo() {
     return SYSERR;
   }
 
-  kprintf("Removing Frame: %d\n", fifoHead.next->fnum);
+  kprintf("Removing Frame: %d\n", (fifoHead.next)->fnum);
 
   // Empty Frame
   fifoHead.next->type = FREE_FRAME;
