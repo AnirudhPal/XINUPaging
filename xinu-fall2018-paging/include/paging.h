@@ -85,7 +85,7 @@ typedef struct {
 #define SPTS          5
 
 // Page Replacement Policies
-#define FIFO          0
+//#define FIFO          0
 #define GLB_CLK       1
 #define NONE          2
 

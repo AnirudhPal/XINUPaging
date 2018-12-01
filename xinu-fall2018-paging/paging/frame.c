@@ -12,7 +12,7 @@ syscall initFrames() {
 
 
   // Set Dummy Head
-  if(pgpolicy == FIFO) {
+  if(pgrpolicy == FIFO) {
   		fifoHead.type = FIFO_HEAD;                  // Set as Head
       fifoHead.fnum = 0;                          // Ignore
       fifoHead.pid = 0;                           // Ignore
