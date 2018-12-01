@@ -172,6 +172,7 @@ syscall	freeFrames(pid32 pid) {
       frametab[i].fnum = i + FRAME0;                // Actual Frame Number
       frametab[i].pid = 0;                          // Default PID
       frametab[i].addr = frametab[i].fnum * NBPG;   // Physical Address
+      frametab[i].next = NULL;                      // Next Frame in FIFO
     }
   }
 
@@ -223,6 +224,8 @@ int removeFifo() {
 
   // Empty Frame
   fifoHead.next->type = FREE_FRAME;
+  fifoHead.next->pid = 0;
+  fifoHead.next->next = NULL;    
 
   // Move Head Ahead
   fifoHead.next = fifoHead.next->next;
