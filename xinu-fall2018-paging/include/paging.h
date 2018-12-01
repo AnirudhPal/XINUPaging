@@ -91,7 +91,7 @@ typedef struct {
 
 /* Structures */
 // Frame Data Structure
-typedef struct {
+typedef struct frame{
   unsigned int type;   // Type of Frame
   unsigned int fnum;   // Actual Frame Number
   pid32 pid;           // PID of Creater
