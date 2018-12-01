@@ -218,7 +218,7 @@ void initialize_paging() {
 	set_evec(PF_VECTOR, (uint32)pfisr);
 
 	// Enable Paging
-	enablePaging();
+	//enablePaging();
 }
 
 int32	stop(char *s)
