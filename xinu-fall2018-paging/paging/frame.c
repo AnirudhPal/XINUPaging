@@ -10,7 +10,6 @@ syscall initFrames() {
   // Disable Interrupts
   intmask mask = disable();
 
-
   // Set Dummy Head
   if(pgrpolicy == FIFO) {
   		fifoHead.type = FIFO_HEAD;                  // Set as Head
@@ -109,8 +108,22 @@ unsigned int getPFrame() {
   // Use Page Replacement
   if(pgrpolicy == FIFO) {
     // Remove Page
-    removeFifo();
-    // Set and Return Page
+    i = removeFifo();
+
+    // Set as Page
+    frametab[i].type = PG_FRAME;
+
+    // Set PID
+    frametab[i].pid = currpid;
+
+    // Add to Page Replacement FIFO
+    if(pgrpolicy == FIFO) {
+      addFifo(&frametab[i]);
+    }
+
+    // Restore and Return
+    restore(mask);
+    return frametab[i].fnum;
   }
 
   // Restore and Return
@@ -197,7 +210,7 @@ syscall addFifo(frame* pFrame) {
 }
 
 // Remove FIFO
-syscall removeFifo() {
+int removeFifo() {
   // Disable Interrupts
   intmask mask = disable();
 
@@ -207,7 +220,10 @@ syscall removeFifo() {
     return SYSERR;
   }
 
-  kprintf("Removing Frame: %d\n", (fifoHead.next)->fnum);
+  kprintf("Removing Frame: %d\n", fifoHead.next->fnum);
+
+  // Save Number
+  int i = fifoHead.next->fnum;
 
   // Empty Frame
   fifoHead.next->type = FREE_FRAME;
@@ -217,5 +233,5 @@ syscall removeFifo() {
 
   // Restore and Return
   restore(mask);
-  return OK;
+  return i;
 }
