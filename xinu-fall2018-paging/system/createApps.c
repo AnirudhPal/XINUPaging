@@ -124,15 +124,17 @@ void testFifo() {
 			kprintf("Error on getPFrame()\n");
 		}
 	}
-	kprintf("Got all Page Frames");
+
+	// Print Fifo
+	printFifo();
 
 	// Get More than All Pages
 	for(i = NDSFRAMES; i < NFRAMES; i++) {
 		if(getPFrame() == SYSERR) {
 			kprintf("Error on getPFrame()\n");
 		}
+		printFifo();
 	}
-	kprintf("Got 50 More");
 
 	// Free Frames
   freeFrames(currpid);

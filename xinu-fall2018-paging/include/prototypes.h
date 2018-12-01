@@ -686,6 +686,7 @@ extern	unsigned int getDSFrame(void);
 extern	unsigned int getPFrame(void);
 extern	syscall setFrameType(unsigned int, unsigned int);
 extern	syscall	freeFrames(pid32);
+extern	syscall printFifo(void);
 
 /* in file pages.c */
 extern	syscall	setSharedPTs(void);

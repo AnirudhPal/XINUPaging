@@ -202,8 +202,6 @@ syscall addFifo(frame* pFrame) {
   // Add Frame
   Head->next = pFrame;
 
-  kprintf("Adding Frame: %d\n", pFrame->fnum);
-
   // Restore and Return
   restore(mask);
   return OK;
@@ -220,8 +218,6 @@ int removeFifo() {
     return SYSERR;
   }
 
-  kprintf("Removing Frame: %d\n", fifoHead.next->fnum);
-
   // Save Number
   int i = fifoHead.next->fnum;
 
@@ -234,4 +230,30 @@ int removeFifo() {
   // Restore and Return
   restore(mask);
   return i;
+}
+
+// Print Frames int FIFO
+syscall printFifo() {
+  // Disable Interrupts
+  intmask mask = disable();
+
+  // Print Head
+  kprintf("Head->");
+
+  // Print Fifo
+  // Get Head
+  frame* Head = &fifoHead;
+
+  // Go to End (Optimize of Required)
+  while(Head->next != NULL) {
+    kprintf("%d->", Head->next->fnum);
+    Head = Head->next;
+  }
+
+  // Print New Line
+  kprintf("\n");
+
+  // Restore and Return
+  restore(mask);
+  return OK;
 }
