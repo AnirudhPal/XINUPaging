@@ -168,6 +168,7 @@ syscall	freeFrames(pid32 pid) {
     		hook_ptable_delete((unsigned int)frametab[i].fnum);
     		#endif
       }
+      deleteFifo(&frametab[i]);                     // Delete Node
       frametab[i].type = FREE_FRAME;                // Set as Free
       frametab[i].fnum = i + FRAME0;                // Actual Frame Number
       frametab[i].pid = 0;                          // Default PID
@@ -237,6 +238,27 @@ int removeFifo() {
   // Restore and Return
   restore(mask);
   return (pFrame->fnum) - FRAME0;
+}
+
+syscall deleteFifo(frame* pFrame) {
+  // Disable Interrupts
+  intmask mask = disable();
+
+  // Error
+  if(pFrame == NULL) {
+    restore(mask);
+    return SYSERR;
+  }
+
+  // Delete
+  pFrame->prev->next = pFrame->next;
+  if(pFrame->next != NULL) {
+    pFrame->next->prev = pFrame->prev;
+  }
+
+  // Restore and Return
+  restore(mask);
+  return OK;
 }
 
 // Print Frames int FIFO

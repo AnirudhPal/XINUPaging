@@ -24,7 +24,7 @@ process	main(void)
 	resume(create(testPages, 1024, 50, "testPages", 0));
 	*/
 	// Testing vcreate() Proc
-	/*
+	
 	kprintf("\nTesting 1 Page Usage\n");
 	resume(vcreate(testP, 3072, 1, 50, "testP", 1, 1));
 	kprintf("\nTesting 2 Page Usage\n");
@@ -55,12 +55,12 @@ process	main(void)
 	sleep(3);
 	kill(AP);
 	kill(BP);
-	*/
-	// Testing FIFO
 
+	// Testing FIFO
+	/*
 	kprintf("\nTesting FIFO\n");
 	resume(create(testFifo, 1024, 50, "testFifo", 0));
-	
+	*/
 	/**
 	kprintf("\n...creating a shell\n");
 	recvclr();
