@@ -28,6 +28,8 @@ Modified/Created Files
 * include/process.h
 * system/resched.c
 * system/kill.c
+* include/rdisksys.h
+* rdserver/rdisksys.h
 
 Implementations
 ---
@@ -162,6 +164,7 @@ Commit Log
 15. Added more testing.
 16. Added address check in pfhandler().
 17. Added fifo structure and functions.
+18. Changed and enabled backing store server.
 
 Virtual Heap Test Output
 ---

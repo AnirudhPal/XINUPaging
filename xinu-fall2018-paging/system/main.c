@@ -8,11 +8,11 @@ process	main(void)
 
 	/* Start the network */
 	/* DO NOT REMOVE OR COMMENT THIS CALL */
-	//netstart();
+	netstart();
 
 	/* Initialize the page server */
 	/* DO NOT REMOVE OR COMMENT THIS CALL */
-	//psinit();
+	psinit();
 
 	// Testing create() Proc
 	/*
