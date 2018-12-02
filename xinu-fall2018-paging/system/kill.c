@@ -33,7 +33,13 @@ syscall	kill(
 
 	// Free Frames - Anirudh Pal
 	freeFrames(pid);
-	
+
+	// Free BSD - Anirudh Pal
+	if(prptr->prbsd != NULL) {
+		deallocate_bs(prptr->prbsd);
+		prptr->prbsd = NULL;
+	}
+
 	switch (prptr->prstate) {
 	case PR_CURR:
 		prptr->prstate = PR_FREE;	/* Suicide */

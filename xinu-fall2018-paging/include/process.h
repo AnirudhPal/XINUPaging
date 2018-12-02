@@ -62,6 +62,7 @@ struct procent {		/* Entry in the process table		*/
 	unsigned int prpages;	// Pages Allocated - Anirudh Pal
 	struct heapblk prvheap; // Virtual Heap Head - Anirudh Pal
 	bool8 prhasheap;	// Virtual Heap Initialized - Anirudh Pal
+	bsd_t prbsd;	// Backing Store Id for Proc - Anirudh Pal
 };
 
 /* Marker for the top of a process stack (used to help detect overflow)	*/

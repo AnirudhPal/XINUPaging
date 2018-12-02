@@ -64,6 +64,12 @@ pid32	vcreate(
 	prptr->prvheap.mnext = (struct heapblk*)(V_FRAME * NBPG);	// VAddress of Heap
   prptr->prvheap.mlength = prptr->prpages * NBPG;  					// Size of Heap
 	prptr->prhasheap = FALSE;	                       					// No Heap
+	prptr->prbsd = allocate_bs(hszie_in_pages);								// Get BSD
+	if(prptr->prbsd == SYSERR) {
+		kprintf("vcreate(): Failed BSD Allocate\n");
+		restore(mask);
+		return SYSERR;
+	}
 	/** End of Anirudh Pal Stuff **/
 
 	/* Initialize stack as if the process was called		*/
