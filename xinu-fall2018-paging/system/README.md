@@ -166,6 +166,7 @@ Commit Log
 17. Added fifo structure and functions.
 18. Changed and enabled backing store server.
 19. Added backing store id to procs.
+20. Made sll for fifo a dll.
 
 Virtual Heap Test Output
 ---

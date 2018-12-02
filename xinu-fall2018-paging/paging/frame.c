@@ -17,6 +17,7 @@ syscall initFrames() {
       fifoHead.pid = 0;                           // Ignore
       fifoHead.addr = NULL;                       // Ignore
       fifoHead.next = NULL;                       // Nothing on Q
+      fifoHead.prev = NULL;                       // Nothing on Q
   }
 
   // Loop and Set Free
@@ -27,6 +28,7 @@ syscall initFrames() {
     frametab[i].pid = 0;                          // Default PID
     frametab[i].addr = frametab[i].fnum * NBPG;   // Physical Address
     frametab[i].next = NULL;                      // Next Frame in FIFO
+    frametab[i].prev = NULL;                      // Prev Frame in FIFO
   }
 
   // Restore and Return
@@ -171,6 +173,7 @@ syscall	freeFrames(pid32 pid) {
       frametab[i].pid = 0;                          // Default PID
       frametab[i].addr = frametab[i].fnum * NBPG;   // Physical Address
       frametab[i].next = NULL;                      // Next Frame in FIFO
+      frametab[i].prev = NULL;                      // Prev Frame in FIFO
     }
   }
 
@@ -200,6 +203,7 @@ syscall addFifo(frame* pFrame) {
 
   // Add Frame
   Head->next = pFrame;
+  pFrame->prev = Head;
 
   // Restore and Return
   restore(mask);
@@ -222,11 +226,13 @@ int removeFifo() {
 
   // Move Head Ahead
   fifoHead.next = fifoHead.next->next;
+  fifoHead.next->prev = &fifoHead;
 
   // Empty Frame
   pFrame->type = FREE_FRAME;
   pFrame->pid = 0;
   pFrame->next = NULL;
+  pFrame->prev = NULL;
 
   // Restore and Return
   restore(mask);
@@ -249,6 +255,15 @@ syscall printFifo() {
   while(Head->next != NULL) {
     kprintf("%d->", Head->next->fnum);
     Head = Head->next;
+  }
+
+  // Print New Line
+  kprintf("\n");
+
+  // Go to End (Optimize of Required)
+  while(Head->prev != NULL) {
+    kprintf("%d<-", Head->fnum);
+    Head = Head->prev;
   }
 
   // Print New Line
