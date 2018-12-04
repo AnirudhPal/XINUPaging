@@ -683,7 +683,7 @@ extern	void testFifo(void);
 extern	syscall initFrames(void);
 extern	syscall printFrames(void);
 extern	unsigned int getDSFrame(void);
-extern	unsigned int getPFrame(void);
+extern	unsigned int getPFrame(unsigned int);
 extern	syscall setFrameType(unsigned int, unsigned int);
 extern	syscall	freeFrames(pid32);
 extern	syscall printFifo(void);

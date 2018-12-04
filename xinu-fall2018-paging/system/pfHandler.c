@@ -56,7 +56,7 @@ void pfhandler() {
 	unsigned int PTEInd = fadd >> (10 + 12);
 	if(procPT[PTEInd].pt_pres == 0) {
 		procPT[PTEInd].pt_pres = 1;
-		procPT[PTEInd].pt_base = getPFrame();
+		procPT[PTEInd].pt_base = getPFrame(PTEInd);
 	}
 
 	// Flush TLB

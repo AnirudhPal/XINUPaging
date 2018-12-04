@@ -16,6 +16,7 @@ syscall initFrames() {
       fifoHead.fnum = 0;                          // Ignore
       fifoHead.pid = 0;                           // Ignore
       fifoHead.addr = NULL;                       // Ignore
+      fifoHead.vpn = 0;                           // Ignore
       fifoHead.next = NULL;                       // Nothing on Q
       fifoHead.prev = NULL;                       // Nothing on Q
   }
@@ -27,6 +28,7 @@ syscall initFrames() {
     frametab[i].fnum = i + FRAME0;                // Actual Frame Number
     frametab[i].pid = 0;                          // Default PID
     frametab[i].addr = frametab[i].fnum * NBPG;   // Physical Address
+    frametab[i].vpn = 0;                          // Default VPN
     frametab[i].next = NULL;                      // Next Frame in FIFO
     frametab[i].prev = NULL;                      // Prev Frame in FIFO
   }
@@ -81,7 +83,7 @@ unsigned int getDSFrame() {
 }
 
 // Get a Frame from last 2072
-unsigned int getPFrame() {
+unsigned int getPFrame(unsigned int PDEInd) {
   // Disable Interrupts
   intmask mask = disable();
 
@@ -95,6 +97,9 @@ unsigned int getPFrame() {
 
       // Set PID
       frametab[i].pid = currpid;
+
+      // Set VPN
+      frametab[i].vpn = PDEInd;
 
       // Add to Page Replacement FIFO
       if(pgrpolicy == FIFO) {
@@ -117,6 +122,9 @@ unsigned int getPFrame() {
 
     // Set PID
     frametab[i].pid = currpid;
+
+    // Set VPN
+    frametab[i].vpn = PDEInd;
 
     // Add to Page Replacement FIFO
     addFifo(&frametab[i]);
@@ -173,6 +181,7 @@ syscall	freeFrames(pid32 pid) {
       frametab[i].fnum = i + FRAME0;                // Actual Frame Number
       frametab[i].pid = 0;                          // Default PID
       frametab[i].addr = frametab[i].fnum * NBPG;   // Physical Address
+      frametab[i].vpn = 0;                          // Default VPN
       frametab[i].next = NULL;                      // Next Frame in FIFO
       frametab[i].prev = NULL;                      // Prev Frame in FIFO
     }
@@ -232,6 +241,7 @@ int removeFifo() {
   // Empty Frame
   pFrame->type = FREE_FRAME;
   pFrame->pid = 0;
+  pFrame->vpn = 0;
   pFrame->next = NULL;
   pFrame->prev = NULL;
 

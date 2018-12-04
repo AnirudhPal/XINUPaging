@@ -96,6 +96,7 @@ typedef struct frame{
   unsigned int fnum;   // Actual Frame Number
   pid32 pid;           // PID of Creater
   unsigned long addr;  // Physical Address
+  unsigned int vpn;    // Virtual Page Number
   struct frame* next;  // Next Frame in FIFO (Only in Virtual Pages)
   struct frame* prev;  // Prev Frame in FIFO (Only in Virtual Pages)
 } frame;

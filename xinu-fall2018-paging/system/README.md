@@ -167,6 +167,7 @@ Commit Log
 18. Changed and enabled backing store server.
 19. Added backing store id to procs.
 20. Made sll for fifo a dll.
+21. Add vpn to frametab[].
 
 Virtual Heap Test Output
 ---
