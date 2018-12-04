@@ -11,7 +11,7 @@ syscall initBsds() {
 
   // Loop and Set Empty
   int i, j;
-  for(i = 0; i < NBSDS; i++)
+  for(i = 0; i < NBSDS; i++) {
     bsdtab[i].pid = 0;
     bsdtab[i].npages = 0;
     bsdtab[i].pages[BSD_PAGES];
@@ -39,10 +39,10 @@ bsd_t addMapping(unsigned int npages, pid32 pid) {
 
   // Add Entry
   bsdtab[bsd].pid = pid;
-  bsdtab[bad].npages = npages;
+  bsdtab[bsd].npages = npages;
   int i;
-  for(i = 0; i < npages, i++) {
-    bsdtab[i].pages[j] = BS_NPRES;
+  for(i = 0; i < npages; i++) {
+    bsdtab[bsd].pages[i] = BS_NPRES;
   }
 
   // Restore and Return
@@ -75,7 +75,7 @@ syscall sendBs(unsigned int fid) {
   }
 
   // Close BSD
-  if(close_bs(proctab[frametab[fid].pid].prbsd == SYSERR) {
+  if(close_bs(proctab[frametab[fid].pid].prbsd == SYSERR)) {
     // Restore and Return
     restore(mask);
     kill(frametab[fid].pid);
