@@ -17,6 +17,7 @@ Modified/Created Files
 * system/pfhandler.c
 * system/createVApps.c
 * system/hooks.c
+* paging/bsdent.c
 
 ### Modified
 
@@ -168,6 +169,7 @@ Commit Log
 19. Added backing store id to procs.
 20. Made sll for fifo a dll.
 21. Add vpn to frametab[].
+22. Add bsdtab[] and functions.
 
 Virtual Heap Test Output
 ---

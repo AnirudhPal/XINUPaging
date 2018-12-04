@@ -206,6 +206,9 @@ void initialize_paging() {
 	// Initialize Shared PTs
 	setSharedPTs();
 
+	// Intialize BS Map
+	initBsds();
+
 	// Create PD
 	proctab[currpid].prpd = getPD();
 

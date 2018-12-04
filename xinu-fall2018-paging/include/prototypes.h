@@ -695,6 +695,13 @@ extern	unsigned int getPT(void);
 extern	syscall	printPD(unsigned int);
 extern	syscall	printPT(unsigned int);
 
+/* in file bsdent.c */
+extern	syscall initBsds(void);
+extern	bsd_t addMapping(unsigned int, pid32);
+extern	syscall sendBs(unsigned int);
+extern	syscall getBs(unsigned int);
+extern	syscall removeMapping(pid32);
+
 /* in file pregs.c */
 extern	syscall enablePaging(void);
 extern	syscall	setPDBR(unsigned int);

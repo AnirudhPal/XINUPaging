@@ -62,6 +62,15 @@ typedef struct {
 #define PG_FRAME      3
 #define FIFO_HEAD     4
 
+// BS Vars
+#define BSD_PAGES        200
+#define NBSDS            8
+
+// BS Page Types
+#define BS_IGNORE        0
+#define BS_NPRES         1
+#define BS_PRES          2
+
 // Frame Entries
 #define FRAME_ENTRIES 1024
 
@@ -100,6 +109,13 @@ typedef struct frame{
   struct frame* next;  // Next Frame in FIFO (Only in Virtual Pages)
   struct frame* prev;  // Prev Frame in FIFO (Only in Virtual Pages)
 } frame;
+
+// BS Map Data Structure
+typedef struct bsdent{
+  pid32 pid;            // PID of Creater
+  unsigned npages;      // Pages Reques
+  unsigned int pages[BSD_PAGES]; // Pages
+} bsdent;
 
 // Virtual Address Structure
 typedef struct {
@@ -144,3 +160,6 @@ extern frame frametab[NFRAMES];
 
 // Shared PTs
 extern unsigned int sharedPTs[SPTS];
+
+// BS Map Table
+extern bsdent bsdtab[NBSDS];

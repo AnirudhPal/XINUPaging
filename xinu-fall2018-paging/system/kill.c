@@ -36,7 +36,9 @@ syscall	kill(
 
 	// Free BSD - Anirudh Pal
 	if(prptr->prbsd != NULL) {
-		deallocate_bs(prptr->prbsd);
+		if(removeMapping(pid) == SYSERR) {
+			kprintf("kill(): Failed BSD Deallocate\n");
+		}
 		prptr->prbsd = NULL;
 	}
 
