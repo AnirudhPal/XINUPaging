@@ -27,6 +27,9 @@ syscall initBsds() {
 
 // Add Maping
 bsd_t addMapping(unsigned int npages, pid32 pid) {
+  // Disable Interrupts
+  intmask mask = disable();
+  
   // Allocate
   bsd_t bsd = allocate_bs(npages);
 
