@@ -126,6 +126,9 @@ unsigned int getPFrame(unsigned int PDEInd) {
     // Set VPN
     frametab[i].vpn = PDEInd;
 
+    // Get from BS
+    getBs(i);
+
     // Add to Page Replacement FIFO
     addFifo(&frametab[i]);
 
@@ -237,6 +240,21 @@ int removeFifo() {
   // Move Head Ahead
   fifoHead.next = fifoHead.next->next;
   fifoHead.next->prev = &fifoHead;
+
+  // Save to BS if Dirty (Have to Dirty Check)
+  if(sendBs(pFrame->fnum - FRAME0) == SYSERR) {
+    // Restore and Return
+    restore(mask);
+    kill(currpid);
+  }
+
+  // Update PT
+  updatePT(pFrame->fnum - FRAME0);
+
+  // Invalidate TLB if Current Process (Have to Optimize)
+  if(frametab[pFrame->fnum - FRAME0].pid == currpid) {
+    setPDBR(proctab[currpid].prpd);
+  }
 
   // Empty Frame
   pFrame->type = FREE_FRAME;

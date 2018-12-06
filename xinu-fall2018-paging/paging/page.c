@@ -183,6 +183,25 @@ unsigned int getPT() {
   return frameNum;
 }
 
+// Update PT
+syscall updatePT(unsigned int fid) {
+  // Disable Interrupts
+  intmask mask = disable();
+
+  // Get PD Pointer
+  pd_t* pPD = (pd_t*)(proctab[frametab[fid].pid].prpd * NBPG);
+
+  // Get PT Pointer (Is this Okay?)
+  pt_t* pPT = (pt_t*)(pPD[SPTS].base * NBPG);
+
+  // Change PT Entry
+  pPT[frametab[fid].vpn].pt_pres = 0;
+
+  // Restore and Return
+  restore(mask);
+  return OK;
+}
+
 // Print PDEs
 syscall	printPD(unsigned int frameNum) {
   // Disable Interrupts

@@ -692,6 +692,7 @@ extern	syscall printFifo(void);
 extern	syscall	setSharedPTs(void);
 extern	unsigned int getPD(void);
 extern	unsigned int getPT(void);
+extern	syscall updatePT(unsigned int);
 extern	syscall	printPD(unsigned int);
 extern	syscall	printPT(unsigned int);
 
