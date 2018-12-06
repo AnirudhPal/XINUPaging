@@ -192,7 +192,7 @@ syscall updatePT(unsigned int fid) {
   pd_t* pPD = (pd_t*)(proctab[frametab[fid].pid].prpd * NBPG);
 
   // Get PT Pointer (Is this Okay?)
-  pt_t* pPT = (pt_t*)(pPD[SPTS].base * NBPG);
+  pt_t* pPT = (pt_t*)(pPD[SPTS].pd_base * NBPG);
 
   // Change PT Entry
   pPT[frametab[fid].vpn].pt_pres = 0;
