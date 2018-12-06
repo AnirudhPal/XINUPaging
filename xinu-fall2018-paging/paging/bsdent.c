@@ -29,13 +29,14 @@ syscall initBsds() {
 bsd_t addMapping(unsigned int npages, pid32 pid) {
   // Disable Interrupts
   intmask mask = disable();
-  
+
   // Allocate
   bsd_t bsd = allocate_bs(npages);
 
   // Error
   if(bsd == SYSERR) {
     // Restore and Return
+    kprintf("addMapping(): Couldn't Create BSD. npages: %d, pid: %d\n", npages, pid);
     restore(mask);
     return SYSERR;
   }
@@ -64,6 +65,7 @@ syscall sendBs(unsigned int fid) {
   // Error
   if(bsd == SYSERR) {
     // Restore and Return
+    kprintf("sendBs(): Couldn't Open BSD. fid: %d\n", fid);
     restore(mask);
     kill(frametab[fid].pid);
     return SYSERR;
@@ -72,14 +74,16 @@ syscall sendBs(unsigned int fid) {
   // Send to BSD
   if(write_bs((char*)frametab[fid].addr, bsd, frametab[fid].vpn) == SYSERR) {
     // Restore and Return
+    kprintf("sendBs(): Couldn't Write BSD. fid: %d\n", fid);
     restore(mask);
     kill(frametab[fid].pid);
     return SYSERR;
   }
 
   // Close BSD
-  if(close_bs(proctab[frametab[fid].pid].prbsd == SYSERR)) {
+  if(close_bs(proctab[frametab[fid].pid].prbsd) == SYSERR) {
     // Restore and Return
+    kprintf("sendBs(): Couldn't Close BSD. fid: %d\n", fid);
     restore(mask);
     kill(frametab[fid].pid);
     return SYSERR;
@@ -101,6 +105,7 @@ syscall getBs(unsigned int fid) {
   // Error
   if(frametab[fid].pid != currpid) {
     // Restore and Return
+    kprintf("getBs(): Not Owner. fid: %d, currpid: %d\n", fid, currpid);
     restore(mask);
     kill(currpid);
   }
@@ -118,6 +123,7 @@ syscall getBs(unsigned int fid) {
   // Error
   if(bsd == SYSERR) {
     // Restore and Return
+    kprintf("getBs(): Couldn't Open BSD. fid: %d\n", fid);
     restore(mask);
     kill(currpid);
   }
@@ -125,6 +131,7 @@ syscall getBs(unsigned int fid) {
   // Get from BSD
   if(read_bs((char*)frametab[fid].addr, bsd, frametab[fid].vpn) == SYSERR) {
     // Restore and Return
+    kprintf("getBs(): Couldn't Read BSD. fid: %d\n", fid);
     restore(mask);
     kill(currpid);
   }
@@ -132,6 +139,7 @@ syscall getBs(unsigned int fid) {
   // Close BSD
   if(close_bs(proctab[currpid].prbsd) == SYSERR) {
     // Restore and Return
+    kprintf("getBs(): Couldn't Close BSD. fid: %d\n", fid);
     restore(mask);
     kill(currpid);
   }
@@ -149,6 +157,7 @@ syscall removeMapping(pid32 pid){
   // Error
   if(proctab[pid].prbsd == SYSERR) {
     // Restore and Return
+    kprintf("removeMapping(): No BSD. pid: %d\n", pid);
     restore(mask);
     return SYSERR;
   }
@@ -164,6 +173,7 @@ syscall removeMapping(pid32 pid){
   // Deallocate
   if(deallocate_bs(proctab[pid].prbsd) == SYSERR) {
     // Restore and Return
+    kprintf("removeMapping(): Couldn't Remove BSD. pid: %d\n", pid);
     restore(mask);
     return SYSERR;
   }

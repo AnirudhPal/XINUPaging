@@ -16,6 +16,7 @@ syscall	vfreemem(
 
 	mask = disable();
 	if (!proctab[currpid].prhasheap || (nbytes == 0) || ((uint32) blkaddr < (uint32) (V_FRAME * NBPG)) || ((uint32) blkaddr > (uint32) (V_FRAME + proctab[currpid].prpages) * NBPG)) {
+		kprintf("vfreemem(): Error.\n");
 		restore(mask);
 		return SYSERR;
 	}

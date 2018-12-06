@@ -66,7 +66,7 @@ pid32	vcreate(
 	prptr->prhasheap = FALSE;	                       					// No Heap
 	prptr->prbsd = addMapping(hsize_in_pages, pid);								// Get BSD
 	if(prptr->prbsd == SYSERR) {
-		kprintf("vcreate(): Failed BSD Allocate\n");
+		kprintf("vcreate(): addMapping() Error.\n");
 		restore(mask);
 		return SYSERR;
 	}

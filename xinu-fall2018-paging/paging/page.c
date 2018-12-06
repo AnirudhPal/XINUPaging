@@ -20,6 +20,7 @@ syscall	setSharedPTs() {
     // Error Handeling
     if(frameNum == (unsigned int)SYSERR) {
       // Restore and Return
+      kprintf("setSharedPTs(): getDSFrame() Error.\n");
       restore(mask);
       return SYSERR;
     }
@@ -57,6 +58,7 @@ syscall	setSharedPTs() {
   // Error Handeling
   if(frameNum == (unsigned int)SYSERR) {
     // Restore and Return
+    kprintf("setSharedPTs(): getDSFrame() Error.\n");
     restore(mask);
     return SYSERR;
   }
@@ -102,6 +104,7 @@ unsigned int getPD() {
   // Error Handeling
   if(frameNum == (unsigned int)SYSERR) {
     // Restore and Return
+    kprintf("getPD(): getDSFrame() Error.\n");
     restore(mask);
     return SYSERR;
   }
@@ -152,6 +155,7 @@ unsigned int getPT() {
   // Error Handeling
   if(frameNum == (unsigned int)SYSERR) {
     // Restore and Return
+    kprintf("getPT(): getDSFrame() Error.\n");
     restore(mask);
     return SYSERR;
   }

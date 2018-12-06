@@ -78,6 +78,7 @@ unsigned int getDSFrame() {
   }
 
   // Restore and Return
+  kprintf("getDSFrame(): No DS Frames Left.\n");
   restore(mask);
   return SYSERR;
 }
@@ -127,7 +128,12 @@ unsigned int getPFrame(unsigned int PDEInd) {
     frametab[i].vpn = PDEInd;
 
     // Get from BS
-    getBs(i);
+    if(getBs(i) == SYSERR) {
+      // Restore and Return
+      kprintf("getPFrame(): getBs() Error. arg: %d.\n", i);
+      restore(mask);
+      kill(currpid);
+    }
 
     // Add to Page Replacement FIFO
     addFifo(&frametab[i]);
@@ -138,6 +144,7 @@ unsigned int getPFrame(unsigned int PDEInd) {
   }
 
   // Restore and Return
+  kprintf("getPFrame(): No P Frames Left.\n");
   restore(mask);
   return SYSERR;
 }
@@ -150,6 +157,7 @@ syscall setFrameType(unsigned int type, unsigned int frameNum) {
   // Error Handeling
   if((type != PD_FRAME && type != PT_FRAME) || frameNum < FRAME0 || frameNum >= NFRAMES + FRAME0) {
     // Restore and Return
+    kprintf("setFrameType(): Wrong Type or Frame. type: %d, frameNum: %d\n", type, frameNum);
     restore(mask);
     return SYSERR;
   }
@@ -202,6 +210,7 @@ syscall addFifo(frame* pFrame) {
 
   // Error
   if(pFrame == NULL) {
+    kprintf("addFifo(): Null Pointer.\n");
     restore(mask);
     return SYSERR;
   }
@@ -230,6 +239,7 @@ int removeFifo() {
 
   // Error
   if(fifoHead.next == NULL) {
+    kprintf("removeFifo(): Empty DLL.\n");
     restore(mask);
     return SYSERR;
   }
@@ -244,6 +254,7 @@ int removeFifo() {
   // Save to BS if Dirty (Have to Dirty Check)
   if(sendBs(pFrame->fnum - FRAME0) == SYSERR) {
     // Restore and Return
+    kprintf("removeFifo(): sendBs() Error. arg: %d.\n", pFrame->fnum - FRAME0);
     restore(mask);
     kill(currpid);
   }
@@ -274,6 +285,7 @@ syscall deleteFifo(frame* pFrame) {
 
   // Error
   if(pFrame == NULL) {
+    kprintf("deleteFifo(): Null Pointer.\n");
     restore(mask);
     return SYSERR;
   }

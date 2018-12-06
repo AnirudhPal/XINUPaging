@@ -171,6 +171,7 @@ Commit Log
 21. Add vpn to frametab[].
 22. Add bsdtab[] and functions.
 23. Crude implementation of entire lab.
+24. Added error prints.
 
 Virtual Heap Test Output
 ---

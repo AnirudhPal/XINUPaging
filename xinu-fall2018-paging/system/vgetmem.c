@@ -14,6 +14,7 @@ char  	*vgetmem(
 
 	mask = disable();
 	if (nbytes == 0) {
+		kprintf("vgetmem(): 0 Bytes Requested.\n");
 		restore(mask);
 		return (char *)SYSERR;
 	}
@@ -28,7 +29,7 @@ char  	*vgetmem(
   if(!proctab[currpid].prhasheap) {
 		proctab[currpid].prhasheap = TRUE;
 		curr->mnext = NULL;
-		curr->mlength = prev->mlength;	
+		curr->mlength = prev->mlength;
 	}
 
 	while (curr != NULL) {			/* Search free list	*/
@@ -53,6 +54,7 @@ char  	*vgetmem(
 			curr = curr->mnext;
 		}
 	}
+	kprintf("vgetmem(): No Space.\n");
 	restore(mask);
 	return (char *)SYSERR;
 }
