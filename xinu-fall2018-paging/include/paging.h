@@ -42,7 +42,7 @@ typedef struct {
 
 #define NBPG		4096	/* number of bytes per page	*/
 #define FRAME0		1024	/* zero-th frame		*/
-#define NFRAMES		1001	/* number of frames		*/
+#define NFRAMES		1050	/* number of frames		*/
 
 #define MAP_SHARED 1
 #define MAP_PRIVATE 2
@@ -88,7 +88,7 @@ typedef struct {
 #define PF_VECTOR     14
 
 // Hooks
-#define VERBOSE       1
+//#define VERBOSE       1
 
 // Shared PT Count
 #define SPTS          5

@@ -118,7 +118,7 @@ unsigned int getPFrame(unsigned int PDEInd) {
   }
 
   // START OF CRITICAL SECTION
-  wait(prSem);
+  //wait(prSem);
 
   // Use Page Replacement
   if(pgrpolicy == FIFO) {
@@ -146,7 +146,7 @@ unsigned int getPFrame(unsigned int PDEInd) {
     addFifo(&frametab[i]);
 
     // END OF CRITICAL SECTION
-    signal(prSem);
+    //signal(prSem);
 
     // Restore and Return
     restore(mask);

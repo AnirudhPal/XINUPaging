@@ -6,6 +6,8 @@ void pfhandler() {
 	// Disable Interrupts
   intmask mask = disable();
 
+	wait(prSem);
+
 	// Find the Faulting Address
 	unsigned long fadd = getCR2();
 
@@ -61,6 +63,8 @@ void pfhandler() {
 
 	// Flush TLB
 	setPDBR(proctab[currpid].prpd);
+
+	signal(prSem);
 
 	// Restore and Return
   restore(mask);
