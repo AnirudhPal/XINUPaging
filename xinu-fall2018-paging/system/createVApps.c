@@ -35,7 +35,7 @@ void testPP(unsigned int pg) {
 	// Print
 	mask = disable();
 	kprintf("PID: %d -> Used All Pages, First Add: 0x%x, First Val: 0x%x, pfCount: %d\n", currpid, ptr, *(ptr), get_faults());
-	kprintf("PID: %d -> Used All Pages, Last Add: 0x%x, First Val: 0x%x, pfCount: %d\n", currpid, ptr + (pg * NBPG), *(ptr + (pg * NBPG)), get_faults());
+	kprintf("PID: %d -> Used All Pages, Last Add: 0x%x, First Val: 0x%x, pfCount: %d\n", currpid, ptr + (pg * NBPG) - 1, *(ptr + (pg * NBPG) - 1, get_faults());
 	restore(mask);
 }
 
