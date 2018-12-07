@@ -206,6 +206,31 @@ syscall updatePT(unsigned int fid) {
   return OK;
 }
 
+// Dirty PTE
+bool8 isDirty(unsigned int fid) {
+  // Disable Interrupts
+  intmask mask = disable();
+
+  // Get PD Pointer
+  pd_t* pPD = (pd_t*)(proctab[frametab[fid].pid].prpd * NBPG);
+
+  // Get PT Pointer (Is this Okay?)
+  pt_t* pPT = (pt_t*)(pPD[SPTS - 1].pd_base * NBPG);
+
+  // Change PT Entry
+  if(pPT[frametab[fid].vpn].pt_dirty == 1) {
+    // Reset
+    pPT[frametab[fid].vpn].pt_dirty = 0;
+    // Restore and Return
+    restore(mask);
+    return TRUE;
+  }
+
+  // Restore and Return
+  restore(mask);
+  return FALSE;
+}
+
 // Print PDEs
 syscall	printPD(unsigned int frameNum) {
   // Disable Interrupts

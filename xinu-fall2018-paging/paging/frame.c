@@ -88,7 +88,7 @@ unsigned int getDSFrame() {
 }
 
 // Get a Frame from last 2072
-unsigned int getPFrame(unsigned int PDEInd) {
+unsigned int getPFrame(unsigned int vpn) {
   // Disable Interrupts
   intmask mask = disable();
 
@@ -104,7 +104,7 @@ unsigned int getPFrame(unsigned int PDEInd) {
       frametab[i].pid = currpid;
 
       // Set VPN
-      frametab[i].vpn = PDEInd;
+      frametab[i].vpn = vpn;
 
       // Add to Page Replacement FIFO
       if(pgrpolicy == FIFO) {
@@ -116,9 +116,6 @@ unsigned int getPFrame(unsigned int PDEInd) {
       return frametab[i].fnum;
     }
   }
-
-  // START OF CRITICAL SECTION
-  //wait(prSem);
 
   // Use Page Replacement
   if(pgrpolicy == FIFO) {
@@ -132,7 +129,7 @@ unsigned int getPFrame(unsigned int PDEInd) {
     frametab[i].pid = currpid;
 
     // Set VPN
-    frametab[i].vpn = PDEInd;
+    frametab[i].vpn = vpn;
 
     // Get from BS
     if(getBs(i) == SYSERR) {
@@ -144,9 +141,6 @@ unsigned int getPFrame(unsigned int PDEInd) {
 
     // Add to Page Replacement FIFO
     addFifo(&frametab[i]);
-
-    // END OF CRITICAL SECTION
-    //signal(prSem);
 
     // Restore and Return
     restore(mask);
@@ -262,11 +256,13 @@ int removeFifo() {
   fifoHead.next->prev = &fifoHead;
 
   // Save to BS if Dirty (Have to Dirty Check)
-  if(sendBs(pFrame->fnum - FRAME0) == SYSERR) {
-    // Restore and Return
-    kprintf("removeFifo(): sendBs() Error. arg: %d.\n", pFrame->fnum - FRAME0);
-    restore(mask);
-    kill(currpid);
+  if(isDirty(pFrame->fnum - FRAME0)) {
+    if(sendBs(pFrame->fnum - FRAME0) == SYSERR) {
+      // Restore and Return
+      kprintf("removeFifo(): sendBs() Error. arg: %d.\n", pFrame->fnum - FRAME0);
+      restore(mask);
+      kill(currpid);
+    }
   }
 
   // Update PT

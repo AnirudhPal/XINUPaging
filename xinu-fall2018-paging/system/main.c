@@ -78,9 +78,9 @@ process	main(void)
 	sleep(10);
 	**/
 	kprintf("\nTesting 60 Page Usage\n");
-	resume(vcreate(testPP, 2048, 25, INITPRIO, "testPP", 1, 25));
+	resume(vcreate(testPP, 2048, 60, INITPRIO, "testPP", 1, 60));
 	kprintf("\nTesting 60 Page Usage\n");
-	resume(vcreate(testPP, 2048, 25, INITPRIO, "testPP", 1, 25));
+	resume(vcreate(testPP, 2048, 60, INITPRIO, "testPP", 1, 60));
 
 	/**
 	kprintf("\n...creating a shell\n");
