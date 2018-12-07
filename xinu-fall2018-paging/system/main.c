@@ -66,12 +66,10 @@ process	main(void)
 	resume(vcreate(testPP, 3072, 1, 50, "testPP", 1, 1));
 	kprintf("\nTesting 2 Page Usage\n");
 	resume(vcreate(testPP, 3072, 2, 50, "testPP", 1, 2));
-	/**
 	kprintf("\nTesting 100 Page Usage\n");
 	resume(vcreate(testPP, 3072, 100, 50, "testPP", 1, 100));
 	kprintf("\nTesting 200 Page Usage\n");
 	resume(vcreate(testPP, 3072, 200, 50, "testPP", 1, 200));
-	**/
 	/**
 	kprintf("\n...creating a shell\n");
 	recvclr();
