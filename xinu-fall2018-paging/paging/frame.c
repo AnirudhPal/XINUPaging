@@ -267,6 +267,11 @@ int removeFifo() {
     setPDBR(proctab[currpid].prpd);
   }
 
+  // Hook
+  #ifdef VERBOSE
+  hook_pswap_out(pFrame->vpn, pFrame->fnum);
+  #endif
+
   // Empty Frame
   pFrame->type = FREE_FRAME;
   pFrame->pid = 0;
