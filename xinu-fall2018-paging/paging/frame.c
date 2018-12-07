@@ -4,6 +4,7 @@
 // Global Var
 frame frametab[NFRAMES];
 frame fifoHead;
+sid32 prSem;
 
 // Initialize Frames
 syscall initFrames() {
@@ -32,6 +33,9 @@ syscall initFrames() {
     frametab[i].next = NULL;                      // Next Frame in FIFO
     frametab[i].prev = NULL;                      // Prev Frame in FIFO
   }
+
+  // Create Semaphore
+  prSem = semcreate(1);
 
   // Restore and Return
   restore(mask);
@@ -113,6 +117,9 @@ unsigned int getPFrame(unsigned int PDEInd) {
     }
   }
 
+  // START OF CRITICAL SECTION
+  wait(prSem);
+
   // Use Page Replacement
   if(pgrpolicy == FIFO) {
     // Remove Page
@@ -137,6 +144,9 @@ unsigned int getPFrame(unsigned int PDEInd) {
 
     // Add to Page Replacement FIFO
     addFifo(&frametab[i]);
+
+    // END OF CRITICAL SECTION
+    signal(prSem);
 
     // Restore and Return
     restore(mask);

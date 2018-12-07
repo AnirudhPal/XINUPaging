@@ -155,6 +155,9 @@ uint16 pgrpolicy;
 // FIFO Dummy Head
 frame fifoHead;
 
+// PR Semaphore
+sid32 prSem;
+
 // Frame Table
 extern frame frametab[NFRAMES];
 
