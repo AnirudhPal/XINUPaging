@@ -62,10 +62,14 @@ process	main(void)
 	resume(create(testFifo, 1024, 50, "testFifo", 0));
 	*/
 	// Testing Page Replacement
+	kprintf("\nTesting 1 Page Usage\n");
+	resume(vcreate(testPP, 3072, 1, 50, "testPP", 1, 1));
 	kprintf("\nTesting 2 Page Usage\n");
-	resume(vcreate(testP, 3072, 2, 50, "testP", 1, 2));
-	kprintf("\nTesting 3 Page Usage\n");
-	resume(vcreate(testP, 3072, 3, 50, "testP", 1, 3));
+	resume(vcreate(testPP, 3072, 2, 50, "testPP", 1, 2));
+	kprintf("\nTesting 100 Page Usage\n");
+	resume(vcreate(testPP, 3072, 100, 50, "testPP", 1, 100));
+	kprintf("\nTesting 200 Page Usage\n");
+	resume(vcreate(testPP, 3072, 200, 50, "testPP", 1, 200));
 	/**
 	kprintf("\n...creating a shell\n");
 	recvclr();

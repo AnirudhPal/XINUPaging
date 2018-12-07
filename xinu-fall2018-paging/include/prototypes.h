@@ -728,6 +728,7 @@ extern void testA(void);
 extern void testB(void);
 extern void testP(unsigned int);
 extern void testPGF(unsigned int);
+extern void testPP(unsigned int);
 
 /* in file hooks.c */
 extern void hook_ptable_create(unsigned int);
