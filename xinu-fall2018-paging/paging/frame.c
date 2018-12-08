@@ -314,6 +314,10 @@ syscall deleteFifo(frame* pFrame) {
     pFrame->next->prev = pFrame->prev;
   }
 
+  // Test
+  //kprintf("Removing %d of %d\n", pFrame->fnum, pFrame->pid);
+  //printFifo();
+
   // Restore and Return
   restore(mask);
   return OK;
@@ -340,7 +344,7 @@ syscall printFifo() {
   // Print New Line
   kprintf("\n");
 
-  // Go to End 
+  // Go to End
   while(Head->prev != NULL) {
     kprintf("%d<-", Head->fnum);
     Head = Head->prev;
