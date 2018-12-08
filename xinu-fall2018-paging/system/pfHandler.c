@@ -63,7 +63,7 @@ void pfhandler() {
   }
 
   // Flush TLB
-  setPDBR(proctab[currpid].prpd);
+  //setPDBR(proctab[currpid].prpd);
 
   // Critical Section End
   signal(prSem);

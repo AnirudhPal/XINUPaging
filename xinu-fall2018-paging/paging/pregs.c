@@ -66,3 +66,19 @@ unsigned long getCR2() {
   // Return
   return val;
 }
+
+// Set Policy
+syscall pgrpolicyC(uint16 spolicy) {
+  // Disable Interrupts
+  intmask mask = disable();
+
+  // Set Policy
+  pgrpolicy = spolicy;
+ 
+  // Enable Interrupts
+  restore(mask);
+
+  // Return
+  return val;
+
+}

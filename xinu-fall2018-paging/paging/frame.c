@@ -282,7 +282,7 @@ int removeFifo() {
 
   // Hook
   #ifdef VERBOSE
-  hook_pswap_out(pFrame->vpn, pFrame->fnum);
+  hook_pswap_out(pFrame->vpn + V_FRAME, pFrame->fnum);
   #endif
 
   // Empty Frame

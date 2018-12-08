@@ -30,6 +30,8 @@ void fixP1(unsigned int pg1) {
 		}
 	}
 
+	sleep(5);
+
 	// Done
 	kprintf("PID %d -> Done.\n", currpid);
 }
@@ -55,6 +57,8 @@ void fixP2(unsigned int pg2) {
 			restore(mask);
 		}
 	}
+
+	sleep(5);
 
 	// Done
 	kprintf("PID %d -> Done.\n", currpid);

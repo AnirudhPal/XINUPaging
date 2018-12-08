@@ -34,7 +34,7 @@ syscall	kill(
 	// Critical Section
 	wait(prSem);
 
-	// Free Frames - Anirudh Pal
+	//Free Frames - Anirudh Pal
 	freeFrames(pid);
 
 	// Free BSD - Anirudh Pal

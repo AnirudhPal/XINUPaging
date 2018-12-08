@@ -708,6 +708,7 @@ extern	syscall removeMapping(pid32);
 extern	syscall enablePaging(void);
 extern	syscall	setPDBR(unsigned int);
 extern	unsigned long	getCR2(void);
+extern	syscall pgrpolicyC(uint16);
 
 /* in file vcreate.c */
 extern	pid32	vcreate(void *, uint32, uint16, pri16, char *, uint32, ...);
