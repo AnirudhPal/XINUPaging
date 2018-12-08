@@ -35,7 +35,7 @@ Modified/Created Files
 Implementations
 ---
 
-The implementation is completed with no parts missing the following is a list of major files with a break down of all the features that they help support and an explanation of how that enables demand paging.
+The implementation is completed with no parts missing the following is a list of major files with a break down of all the features that they help support and an explanation of how that enables demand paging. I have noticed some odd behavior with concurrent processes. Please contact me if you run into that.
 
 ### frame.c
 
@@ -51,11 +51,27 @@ This function is used to get a frame for page tables and page directories. It ob
 
 #### getPFrame()
 
-This function is used to get a frame for pages. It obtains frames from the last 2072 in frametab[]. It iterates through the frametab[] looking for an empty frame.
+This function is used to get a frame for pages. It obtains frames from the last 2072 in frametab[]. It iterates through the frametab[] looking for an empty frame. In the backing store version it will defer to a FIFO list if it cant find an empty frame.
 
-#### freeFrames(pid32)
+#### freeFrames()
 
-This function sets all frames in frametab[] associated to a pid to free so they can be used by others.
+This function sets all frames in frametab[] associated to a pid to free so they can be used by others. It also pulls them from the FIFO.
+
+#### addFifo()
+
+This function is used to add a frame to the FIFO.
+
+#### removeFifo()
+
+This function is used to get a frame from FIFO.
+
+#### deleteFifo()
+
+This function is used to remove a specific frame from the FIFO.
+
+#### removeRand()
+
+This function gets a random frame from the frametab[].
 
 ### page.c
 
@@ -73,6 +89,38 @@ This function is used to get a page directory setup with the shared page directo
 
 This function is used to get an empty page table.
 
+#### updatePT()
+
+This function sets an entry of a page table to not present when it is being switched out.
+
+#### isDirty()
+
+This function returns true if a page is dirty.
+
+### bsdent.c
+
+It contains functions associated with interacting and mapping the backing store. We use a table called bsdtab[] to make this mapping happen.
+
+#### initBsds()
+
+Initializes the data structure with empty entries. Each entry has an associated bsd_t, pid, page count and page presence table.
+
+#### addMapping()
+
+This sets one entry up with a process.
+
+#### removeMapping()
+
+This removes that association.
+
+#### sendBs()
+
+This function is used to send a particular frame to the backing store and update the bsdtab[].
+
+#### getBs()
+
+This function is used to get a particular frame from the backing store.
+
 ### pregs.c
 
 #### enablePaging()
@@ -86,6 +134,10 @@ This function is used to set the page directory of the current process. It also 
 #### getCR2()
 
 This function is used to get the CR2 value which store that fault causing virtual address during the page fault.
+
+#### pgrpolicyC()
+
+System call used to change page replacement policy. Had to be renamed due to name conflict.
 
 ### pfisr.c
 
@@ -123,22 +175,32 @@ Only addition was to switch the CR3 value to the page directory of the process t
 
 Only addition was to delete all frames that have been obtained by the dying process.
 
+Backing Store Mapping
+---
+
+We find the pid and virtual page number of a given frame using the inverted page table data structure called frametab[]. The we use the pid to find the associated entry in bsdtab[] by looking up the entry number in the proctab[]. Then we use the virtual page number to get the associated offset in the store associated with the pid. There are multiple structures that help achieve this efficiently which include frametab[], bsdent[] and proctab[]. This is done without searching and by indexing the structures.
+
+BONUS
+---
+
+I have made an alternative page replacement policy which basically just pics a random entry to replace. This is actually as effective as FIFO since both can lead to multiple page faults, but the random policy has a more predictable distribution. It also has the added advantage of being a lot smaller that FIFO and also require little to no mutual exclusion to achieve the page replacement. You can uncomment the policy setting portion in initialize_paging() in system/initialize.c. I would avoid using the pgrpolicyC() function since their are inconsistencies between the handout and the provided skeleton code. An OS has to run between multiple user applications and a concise and simple page replacement policy might be ideal in many situtations. 
+
 Testing
 ---
 
-As stated in the last report I don't have sti or cli in my pfisr(). I use
+As stated in the last report I don't have sti or cli in my pfisr(). I use semaphores to ensure paging data structures are not mangled because of blocking backing store calls.
 
 Here is the break down of the test I performed:
 
-1. Tested a proc that uses the standard heap and not the virtual heap.
+1. I tested procs that don't require backing store.
 
-2. Tested the frame.c and page.c functions without actually having paging on with emulated requests. Output is at the end.
+2. I tested procs that did require the backing store of varying page sizes.
 
-3. Tested a procs that uses virtual heap with vgetmem and freemem that get, set and check the values in the heap. I checked with 1 Page, 2 Pages, 1024 Pages and 2072 Pages.
+3. I also performed a memory thrashing test that would only have 1 frame available to it.
 
-4. Ran two procs that write to the same virtual address in the heap and made sure the value were as expected.
+4. Finally all of these tests were run together so as to ensure that multiple processes can use the backing store.
 
-5. Output of the virtual heap tests are at the end.
+5. All testing would get, set and check values in the virtual address space to pass.
 
 Note
 ---
