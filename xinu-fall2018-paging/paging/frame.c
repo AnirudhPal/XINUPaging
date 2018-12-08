@@ -244,7 +244,7 @@ int removeRand() {
 
   // Get Frame
   unsigned int rNum = NDSFRAMES + ((unsigned int)rand() % (NFRAMES - NDSFRAMES));
-  kprintf("Pick %d\n", rNum);
+  //kprintf("Pick %d\n", rNum);
   frame* pFrame = &frametab[rNum];
 
   // Save to BS if Dirty

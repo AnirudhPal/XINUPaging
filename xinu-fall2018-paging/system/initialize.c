@@ -199,6 +199,7 @@ static	void	sysinit()
 void initialize_paging() {
 	// Set Default Policy (Change Later)
 	pgrpolicy = FIFO;
+	//pgrpolicy = MYPOLICY;
 
 	// Initialize Frames
 	initFrames();
