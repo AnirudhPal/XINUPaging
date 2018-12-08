@@ -239,5 +239,36 @@ Virtual Heap Test Output
 ---
 
 ```
+Testing 1 Page Usage
+PID: 5 -> Using 1 Pages
+PID: 5 -> Used All Pages, First Add: 0x1000000, First Val: 0x0, pfCount: 1
+PID: 5 -> Used All Pages, Last Add: 0x1000ffc, First Val: 0x3ff, pfCount: 1
 
+Testing 2 Page Usage
+PID: 6 -> Using 2 Pages
+PID: 6 -> Used All Pages, First Add: 0x1000000, First Val: 0x0, pfCount: 3
+PID: 6 -> Used All Pages, Last Add: 0x1001ffc, First Val: 0x7ff, pfCount: 3
+
+Testing 100 Page Usage
+PID: 7 -> Using 100 Pages
+PID: 7 -> Used All Pages, First Add: 0x1000000, First Val: 0x0, pfCount: 203
+PID: 7 -> Used All Pages, Last Add: 0x1063ffc, First Val: 0x18fff, pfCount: 204
+
+Testing 200 Page Usage
+PID: 8 -> Using 200 Pages
+PID: 8 -> Used All Pages, First Add: 0x1000000, First Val: 0x0, pfCount: 604
+PID: 8 -> Used All Pages, Last Add: 0x10c7ffc, First Val: 0x31fff, pfCount: 605
+
+Testing 200 Page Usage
+PID: 9 -> Using 200 Pages
+PID: 9 -> Used All Pages, First Add: 0x1000000, First Val: 0x0, pfCount: 1005
+PID: 9 -> Used All Pages, Last Add: 0x10c7ffc, First Val: 0x31fff, pfCount: 1006
+
+Testing 200 Page Usage
+PID: 10 -> Using 200 Pages
+
+Testing 200 Page Usage
+PID: 11 -> Using 200 Pages
+PID 10 -> Done.
+PID 11 -> Done.
 ```
