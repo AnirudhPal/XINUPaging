@@ -6,6 +6,8 @@ frame frametab[NFRAMES];
 frame fifoHead;
 sid32 prSem;
 
+unsigned long temp;
+
 // Initialize Frames
 syscall initFrames() {
   // Disable Interrupts
@@ -191,7 +193,10 @@ syscall	freeFrames(pid32 pid) {
     		hook_ptable_delete((unsigned int)frametab[i].fnum);
     		#endif
       }
-      deleteFifo(&frametab[i]);                     // Delete Node
+      // PG Match
+      if(frametab[i].type == PG_FRAME) {
+      	deleteFifo(&frametab[i]);                     // Delete Node
+      }
       frametab[i].type = FREE_FRAME;                // Set as Free
       frametab[i].fnum = i + FRAME0;                // Actual Frame Number
       frametab[i].pid = 0;                          // Default PID
@@ -270,7 +275,10 @@ int removeFifo() {
 
   // Invalidate TLB if Current Process (Have to Optimize)
   if(frametab[pFrame->fnum - FRAME0].pid == currpid) {
-    setPDBR(proctab[currpid].prpd);
+	temp = frametab[pFrame->fnum - FRAME0].vpn + V_FRAME;
+	asm("pushl %eax");
+	asm("invlpg temp");
+	asm("popl %eax");
   }
 
   // Hook

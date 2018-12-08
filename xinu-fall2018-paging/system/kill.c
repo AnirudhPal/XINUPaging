@@ -32,6 +32,7 @@ syscall	kill(
 	freestk(prptr->prstkbase, prptr->prstklen);
 
 	// Free Frames - Anirudh Pal
+	wait(prSem);
 	freeFrames(pid);
 
 	// Free BSD - Anirudh Pal
@@ -41,6 +42,7 @@ syscall	kill(
 		}
 		prptr->prbsd = NULL;
 	}
+	signal(prSem);
 
 	switch (prptr->prstate) {
 	case PR_CURR:

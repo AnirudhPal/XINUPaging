@@ -14,7 +14,7 @@ syscall initBsds() {
   for(i = 0; i < NBSDS; i++) {
     bsdtab[i].pid = 0;
     bsdtab[i].npages = 0;
-    bsdtab[i].pages[BSD_PAGES];
+    //bsdtab[i].pages[BSD_PAGES];
     for(j = 0; j < BSD_PAGES; j++) {
       bsdtab[i].pages[j] = BS_IGNORE;
     }
@@ -81,7 +81,7 @@ syscall sendBs(unsigned int fid) {
   }
 
   // Close BSD
-  if(close_bs(proctab[frametab[fid].pid].prbsd) == SYSERR) {
+  if(close_bs(bsd) == SYSERR) {
     // Restore and Return
     kprintf("sendBs(): Couldn't Close BSD. fid: %d\n", fid);
     restore(mask);
@@ -91,7 +91,7 @@ syscall sendBs(unsigned int fid) {
 
   // Modify Table
   bsdtab[proctab[frametab[fid].pid].prbsd].pages[frametab[fid].vpn] = BS_PRES;
-
+  
   // Restore and Return
   restore(mask);
   return OK;
@@ -137,12 +137,15 @@ syscall getBs(unsigned int fid) {
   }
 
   // Close BSD
-  if(close_bs(proctab[currpid].prbsd) == SYSERR) {
+  if(close_bs(bsd) == SYSERR) {
     // Restore and Return
     kprintf("getBs(): Couldn't Close BSD. fid: %d\n", fid);
     restore(mask);
     kill(currpid);
   }
+
+
+
 
   // Restore and Return
   restore(mask);
@@ -164,11 +167,11 @@ syscall removeMapping(pid32 pid){
 
   // Modify Table
   bsdtab[proctab[pid].prbsd].pid = 0;
-  bsdtab[proctab[pid].prbsd].npages = 0;
-  int i;
-  for(i = 0; i < bsdtab[proctab[pid].prbsd].npages; i++) {
-    bsdtab[proctab[pid].prbsd].pages[i] = BS_IGNORE;
+  int k;
+  for(k = 0; k < bsdtab[proctab[pid].prbsd].npages; k++) {
+    bsdtab[proctab[pid].prbsd].pages[k] = BS_IGNORE;
   }
+  bsdtab[proctab[pid].prbsd].npages = 0;
 
   // Deallocate
   if(deallocate_bs(proctab[pid].prbsd) == SYSERR) {

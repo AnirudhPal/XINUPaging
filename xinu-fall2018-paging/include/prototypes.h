@@ -693,6 +693,7 @@ extern	syscall	setSharedPTs(void);
 extern	unsigned int getPD(void);
 extern	unsigned int getPT(void);
 extern	syscall updatePT(unsigned int);
+extern	bool8 isDirty(unsigned int);
 extern	syscall	printPD(unsigned int);
 extern	syscall	printPT(unsigned int);
 
@@ -729,6 +730,8 @@ extern void testB(void);
 extern void testP(unsigned int);
 extern void testPGF(unsigned int);
 extern void testPP(unsigned int);
+extern void fixP1(unsigned int);
+extern void fixP2(unsigned int);
 
 /* in file hooks.c */
 extern void hook_ptable_create(unsigned int);

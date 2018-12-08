@@ -6,6 +6,50 @@
 #define TST_BYT 4
 #define TST_IT	100
 
+void fixP1(unsigned int pg1) {
+	intmask mask = disable();
+	kprintf("PID: %d -> Using %d Pages\n", currpid, pg1);
+	restore(mask);
+	char ch1 = 'A';
+	int i1;
+	char* ptr1 = (char*)vgetmem(pg1 * NBPG);
+	for(i1=0; i1 < pg1; i1++) {
+		*(ptr1 + (i1*NBPG)) = ch1 + i1;
+	}
+	for(i1=0; i1 < pg1; i1++) {
+		kprintf("PID: %d -> Val: %c Sup: %c\n", currpid, ptr1[(i1*NBPG)], ch1 + i1);
+		if(ptr1[(i1*NBPG)] != (char)(ch1 + i1)) {
+			mask = disable();
+			kprintf("PID: %d -> Something is Wrong Val: %c at 0x%x\n", currpid, *(ptr1 + (i1*NBPG))  ,ptr1 + (i1*NBPG)  );
+			restore(mask);
+		}
+	}
+	kprintf("PID %d -> Done.\n", currpid);
+}
+
+void fixP2(unsigned int pg2) {
+	intmask mask = disable();
+	kprintf("PID: %d -> Using %d Pages\n", currpid, pg2);
+	restore(mask);
+	char ch2 = 'I';
+	int i2;
+	char* ptr2 = (char*)vgetmem(pg2 * NBPG);
+	for(i2=0; i2 < pg2; i2++) {
+		*(ptr2 + (i2*NBPG)) = ch2 + i2;
+	}
+	for(i2=0; i2 < pg2; i2++) {
+		kprintf("PID: %d -> Val: %c Sup: %c\n", currpid, ptr2[(i2*NBPG)], ch2 + i2);
+		if(ptr2[(i2*NBPG)] != (char)(ch2 + i2)) {
+			mask = disable();	
+			kprintf("PID: %d -> Something is Wrong Val: %c at 0x%x\n", currpid, *(ptr2 + (i2*NBPG))  ,ptr2 + (i2*NBPG)  );
+			restore(mask);
+		}
+	}
+	kprintf("PID %d -> Done.\n", currpid);
+}
+
+
+
 // Proc
 void testPP(unsigned int pg) {
 	// Print
