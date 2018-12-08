@@ -6,18 +6,18 @@ local	int newpid();
 #define	roundew(x)	( (x+3)& ~0x3)
 
 /*------------------------------------------------------------------------
- *  vcreate  -  Create a process to start running a function on x86
- *------------------------------------------------------------------------
- */
+*  vcreate  -  Create a process to start running a function on x86
+*------------------------------------------------------------------------
+*/
 pid32	vcreate(
-	  void		*funcaddr,	/* Address of the function	*/
-	  uint32	ssize,		/* Stack size in words		*/
-    uint16  hsize_in_pages, // No: of Pages - Anirudh Pal
-	  pri16		priority,	/* Process priority > 0		*/
-	  char		*name,		/* Name (for debugging)		*/
-	  uint32	nargs,		/* Number of args that follow	*/
-	  ...
-	)
+	void		*funcaddr,	/* Address of the function	*/
+	uint32	ssize,		/* Stack size in words		*/
+	uint16  hsize_in_pages, // No: of Pages - Anirudh Pal
+	pri16		priority,	/* Process priority > 0		*/
+	char		*name,		/* Name (for debugging)		*/
+	uint32	nargs,		/* Number of args that follow	*/
+	...
+)
 {
 	uint32		savsp, *pushsp;
 	intmask 	mask;    	/* Interrupt mask		*/
@@ -29,11 +29,11 @@ pid32	vcreate(
 
 	mask = disable();
 	if (ssize < MINSTK)
-		ssize = MINSTK;
+	ssize = MINSTK;
 	ssize = (uint32) roundew(ssize);
 	if (((saddr = (uint32 *)getstk(ssize)) ==
-	    (uint32 *)SYSERR ) ||
-	    (pid=newpid()) == SYSERR || priority < 1 ) {
+	(uint32 *)SYSERR ) ||
+	(pid=newpid()) == SYSERR || priority < 1 ) {
 		restore(mask);
 		return SYSERR;
 	}
@@ -48,7 +48,7 @@ pid32	vcreate(
 	prptr->prstklen = ssize;
 	prptr->prname[PNMLEN-1] = NULLCH;
 	for (i=0 ; i<PNMLEN-1 && (prptr->prname[i]=name[i])!=NULLCH; i++)
-		;
+	;
 	prptr->prsem = -1;
 	prptr->prparent = (pid32)getpid();
 	prptr->prhasmsg = FALSE;
@@ -57,12 +57,12 @@ pid32	vcreate(
 	prptr->prdesc[0] = CONSOLE;
 	prptr->prdesc[1] = CONSOLE;
 	prptr->prdesc[2] = CONSOLE;
-
+	
 	/** Anirudh Pal Stuff **/
 	prptr->prpd = getPD();		                       					// Get PD
 	prptr->prpages = hsize_in_pages;	               					// No: of Pages
 	prptr->prvheap.mnext = (struct heapblk*)(V_FRAME * NBPG);	// VAddress of Heap
-  prptr->prvheap.mlength = prptr->prpages * NBPG;  					// Size of Heap
+	prptr->prvheap.mlength = prptr->prpages * NBPG;  					// Size of Heap
 	prptr->prhasheap = FALSE;	                       					// No Heap
 	prptr->prbsd = addMapping(hsize_in_pages, pid);								// Get BSD
 	if(prptr->prbsd == SYSERR) {
@@ -81,7 +81,7 @@ pid32	vcreate(
 	a = (uint32 *)(&nargs + 1);	/* Start of args		*/
 	a += nargs -1;			/* Last argument		*/
 	for ( ; nargs > 0 ; nargs--)	/* Machine dependent; copy args	*/
-		*--saddr = *a--;	/*   onto created process' stack*/
+	*--saddr = *a--;	/*   onto created process' stack*/
 	*--saddr = (long)INITRET;	/* Push on return address	*/
 
 	/* The following entries on the stack must match what ctxsw	*/
@@ -89,14 +89,14 @@ pid32	vcreate(
 	/*   ebp, interrupt mask, flags, registerss, and an old SP	*/
 
 	*--saddr = (long)funcaddr;	/* Make the stack look like it's*/
-					/*   half-way through a call to	*/
-					/*   ctxsw that "returns" to the*/
-					/*   new process		*/
+	/*   half-way through a call to	*/
+	/*   ctxsw that "returns" to the*/
+	/*   new process		*/
 	*--saddr = savsp;		/* This will be register ebp	*/
-					/*   for process exit		*/
+	/*   for process exit		*/
 	savsp = (uint32) saddr;		/* Start of frame for ctxsw	*/
 	*--saddr = 0x00000200;		/* New process runs with	*/
-					/*   interrupts enabled		*/
+	/*   interrupts enabled		*/
 
 	/* Basically, the following emulates an x86 "pushal" instruction*/
 
@@ -115,14 +115,14 @@ pid32	vcreate(
 }
 
 /*------------------------------------------------------------------------
- *  newpid  -  Obtain a new (free) process ID
- *------------------------------------------------------------------------
- */
+*  newpid  -  Obtain a new (free) process ID
+*------------------------------------------------------------------------
+*/
 local	pid32	newpid(void)
 {
 	uint32	i;			/* Iterate through all processes*/
 	static	pid32 nextpid = 1;	/* Position in table to try or	*/
-					/*   one beyond end of table	*/
+	/*   one beyond end of table	*/
 
 	/* Check all NPROC slots */
 

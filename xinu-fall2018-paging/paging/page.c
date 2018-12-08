@@ -214,7 +214,7 @@ bool8 isDirty(unsigned int fid) {
   // Get PD Pointer
   pd_t* pPD = (pd_t*)(proctab[frametab[fid].pid].prpd * NBPG);
 
-  // Get PT Pointer (Is this Okay?)
+  // Get PT Pointer
   pt_t* pPT = (pt_t*)(pPD[SPTS - 1].pd_base * NBPG);
 
   // Change PT Entry
@@ -248,9 +248,9 @@ syscall	printPD(unsigned int frameNum) {
     }
   }
 
-    // Restore and Return
-    restore(mask);
-    return OK;
+  // Restore and Return
+  restore(mask);
+  return OK;
 }
 
 // Print PTEs

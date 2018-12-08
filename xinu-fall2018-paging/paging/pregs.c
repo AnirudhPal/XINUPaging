@@ -9,20 +9,20 @@ syscall	enablePaging() {
   // Disable Interrupts
   intmask mask = disable();
 
-	// Get CR0
-	asm("pushl %eax;"
-	    "movl %cr0, %eax;"
-	    "movl %eax, val;"
-	    "popl %eax;");
+  // Get CR0
+  asm("pushl %eax;"
+  "movl %cr0, %eax;"
+  "movl %eax, val;"
+  "popl %eax;");
+  
+  // Mask Value
+  val = val | 0x80000000;
 
-	// Mask Value
-	val = val | 0x80000000;
-
-	// Set CR0
-	asm("pushl %eax;"
-	    "movl val, %eax;"
-	    "movl %eax, %cr0;"
-	    "popl %eax;");
+  // Set CR0
+  asm("pushl %eax;"
+  "movl val, %eax;"
+  "movl %eax, %cr0;"
+  "popl %eax;");
 
   // Restore and Return
   restore(mask);
@@ -34,15 +34,15 @@ syscall	setPDBR(unsigned int frameNum) {
   // Disable Interrupts
   intmask mask = disable();
 
-	// Right Shift
-	val = (unsigned long)frameNum;
+  // Right Shift
+  val = (unsigned long)frameNum;
   val = val << 12;
 
-	// Set CR3
-	asm("pushl %eax;"
-	    "movl val, %eax;"
-	    "movl %eax, %cr3;"
-	    "popl %eax;");
+  // Set CR3
+  asm("pushl %eax;"
+  "movl val, %eax;"
+  "movl %eax, %cr3;"
+  "popl %eax;");
 
   // Restore and Return
   restore(mask);
@@ -51,18 +51,18 @@ syscall	setPDBR(unsigned int frameNum) {
 
 // Get CR2
 unsigned long getCR2() {
-	// Disable Interrupts
-	intmask mask = disable();
+  // Disable Interrupts
+  intmask mask = disable();
 
-	// Get CR2
-	asm("pushl %eax;"
-	    "movl %cr2, %eax;"
-	    "movl %eax, val;"
-	    "popl %eax;");
+  // Get CR2
+  asm("pushl %eax;"
+  "movl %cr2, %eax;"
+  "movl %eax, val;"
+  "popl %eax;");
 
-	// Enable Interrupts
-	restore(mask);
+  // Enable Interrupts
+  restore(mask);
 
-	// Return
-	return val;
+  // Return
+  return val;
 }

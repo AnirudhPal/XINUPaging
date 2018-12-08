@@ -54,7 +54,7 @@ bsd_t addMapping(unsigned int npages, pid32 pid) {
   return bsd;
 }
 
-// Send to BS (Dirty Case Missing)
+// Send to BS
 syscall sendBs(unsigned int fid) {
   // Disable Interrupts
   intmask mask = disable();
@@ -91,7 +91,7 @@ syscall sendBs(unsigned int fid) {
 
   // Modify Table
   bsdtab[proctab[frametab[fid].pid].prbsd].pages[frametab[fid].vpn] = BS_PRES;
-  
+
   // Restore and Return
   restore(mask);
   return OK;
@@ -143,9 +143,6 @@ syscall getBs(unsigned int fid) {
     restore(mask);
     kill(currpid);
   }
-
-
-
 
   // Restore and Return
   restore(mask);

@@ -6,45 +6,57 @@
 #define TST_BYT 4
 #define TST_IT	100
 
+// Critical Testing
 void fixP1(unsigned int pg1) {
+	// Print
 	intmask mask = disable();
 	kprintf("PID: %d -> Using %d Pages\n", currpid, pg1);
 	restore(mask);
+
+	// Set per Page
 	char ch1 = 'A';
 	int i1;
 	char* ptr1 = (char*)vgetmem(pg1 * NBPG);
 	for(i1=0; i1 < pg1; i1++) {
 		*(ptr1 + (i1*NBPG)) = ch1 + i1;
 	}
+
+	// Get per Page
 	for(i1=0; i1 < pg1; i1++) {
-		kprintf("PID: %d -> Val: %c Sup: %c\n", currpid, ptr1[(i1*NBPG)], ch1 + i1);
 		if(ptr1[(i1*NBPG)] != (char)(ch1 + i1)) {
 			mask = disable();
-			kprintf("PID: %d -> Something is Wrong Val: %c at 0x%x\n", currpid, *(ptr1 + (i1*NBPG))  ,ptr1 + (i1*NBPG)  );
+			kprintf("PID: %d -> Something is Wrong Val: %c at 0x%x should be %c\n", currpid, *(ptr1 + (i1*NBPG)), ptr1 + (i1*NBPG), ch1 + i1);
 			restore(mask);
 		}
 	}
+
+	// Done
 	kprintf("PID %d -> Done.\n", currpid);
 }
-
 void fixP2(unsigned int pg2) {
+	// Print
 	intmask mask = disable();
 	kprintf("PID: %d -> Using %d Pages\n", currpid, pg2);
 	restore(mask);
+
+	// Set per Page
 	char ch2 = 'I';
 	int i2;
 	char* ptr2 = (char*)vgetmem(pg2 * NBPG);
 	for(i2=0; i2 < pg2; i2++) {
 		*(ptr2 + (i2*NBPG)) = ch2 + i2;
 	}
+
+	// Get per Page
 	for(i2=0; i2 < pg2; i2++) {
-		kprintf("PID: %d -> Val: %c Sup: %c\n", currpid, ptr2[(i2*NBPG)], ch2 + i2);
 		if(ptr2[(i2*NBPG)] != (char)(ch2 + i2)) {
-			mask = disable();	
-			kprintf("PID: %d -> Something is Wrong Val: %c at 0x%x\n", currpid, *(ptr2 + (i2*NBPG))  ,ptr2 + (i2*NBPG)  );
+			mask = disable();
+			kprintf("PID: %d -> Something is Wrong Val: %c at 0x%x should be %c\n", currpid, *(ptr2 + (i2*NBPG)), ptr2 + (i2*NBPG), ch2 + i2  );
 			restore(mask);
 		}
 	}
+
+	// Done
 	kprintf("PID %d -> Done.\n", currpid);
 }
 
@@ -57,16 +69,16 @@ void testPP(unsigned int pg) {
 	kprintf("PID: %d -> Using %d Pages\n", currpid, pg);
 	restore(mask);
 
-  // Get
+	// Get
 	unsigned long i;
 	unsigned long* ptr = (unsigned long*)vgetmem(pg * NBPG);
 
-  // Set
+	// Set
 	for(i=0; i < (pg * NBPG) / TST_BYT; i++) {
 		*(ptr + i) = i;
 	}
 
-  // Check
+	// Check
 	for(i=0; i < (pg * NBPG) / TST_BYT; i++) {
 		if(ptr[i] != i) {
 			// Print
@@ -90,16 +102,16 @@ void testP(unsigned int pg) {
 	kprintf("PID: %d -> Using %d Pages\n", currpid, pg);
 	restore(mask);
 
-  // Get
+	// Get
 	unsigned long i;
 	unsigned long* ptr = (unsigned long*)vgetmem(pg * NBPG);
 
-  // Set
+	// Set
 	for(i=0; i < (pg * NBPG) / TST_BYT; i++) {
 		*(ptr + i) = TST_HEX;
 	}
 
-  // Check
+	// Check
 	for(i=0; i < (pg * NBPG) / TST_BYT; i++) {
 		if(ptr[i] != TST_HEX) {
 			// Print
@@ -132,12 +144,12 @@ void testPGF(unsigned int pg) {
 		unsigned long i;
 		unsigned long* ptr = (unsigned long*)vgetmem(pg * NBPG);
 
-	  // Set
+		// Set
 		for(i=0; i < (pg * NBPG) / TST_BYT; i++) {
 			*(ptr + i) = TST_HEX;
 		}
 
-	  // Check
+		// Check
 		for(i=0; i < (pg * NBPG) / TST_BYT; i++) {
 			if(ptr[i] != TST_HEX) {
 				// Print
@@ -150,9 +162,9 @@ void testPGF(unsigned int pg) {
 		// Print
 		kprintf("%d", j);
 		if(j < 10)
-			kprintf("\b");
+		kprintf("\b");
 		else
-			kprintf("\b\b");
+		kprintf("\b\b");
 
 		// Free
 		vfreemem((char*)ptr, pg * NBPG);

@@ -14,6 +14,7 @@ process	main(void)
 	/* DO NOT REMOVE OR COMMENT THIS CALL */
 	psinit();
 
+	/** PART 1 TESTING **/
 	// Testing create() Proc
 	/*
 	kprintf("\nTesting Normal Heap\n");
@@ -56,6 +57,9 @@ process	main(void)
 	kill(AP);
 	kill(BP);
 	*/
+
+
+	/** PART 2 TESTING **/
 	// Testing FIFO
 	/*
 	kprintf("\nTesting FIFO\n");
@@ -76,12 +80,8 @@ process	main(void)
 	resume(vcreate(testPP, 2048, 200, 50, "testPP", 1, 200));
 	sleep(5);
 	kprintf("\nTesting 200 Page Usage\n");
-	//resume(vcreate(testPP, 2048, 200, 50, "testPP", 1, 200));
-	kprintf("\nTesting 200 Page Usage\n");
-	//resume(vcreate(testPP, 2048, 200, 50, "testPP", 1, 200));
-	kprintf("\nTesting 50 Page Usage\n");
 	resume(vcreate(fixP1, 2048, 200, INITPRIO, "fixP1", 1, 200));
-	kprintf("\nTesting 50 Page Usage\n");
+	kprintf("\nTesting 200 Page Usage\n");
 	resume(vcreate(fixP2, 2048, 200, INITPRIO, "fixP2", 1, 200));
 
 	/**
@@ -93,11 +93,11 @@ process	main(void)
 
 	/**
 	while (TRUE) {
-		receive();
-		sleepms(200);
-		kprintf("\n\nMain process recreating shell\n\n");
-		resume(create(shell, 4096, 20, "shell", 1, CONSOLE));
-	}
-	return OK;
-	**/
+	receive();
+	sleepms(200);
+	kprintf("\n\nMain process recreating shell\n\n");
+	resume(create(shell, 4096, 20, "shell", 1, CONSOLE));
+}
+return OK;
+**/
 }

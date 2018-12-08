@@ -5,7 +5,6 @@
 frame frametab[NFRAMES];
 frame fifoHead;
 sid32 prSem;
-
 unsigned long temp;
 
 // Initialize Frames
@@ -15,13 +14,13 @@ syscall initFrames() {
 
   // Set Dummy Head
   if(pgrpolicy == FIFO) {
-  		fifoHead.type = FIFO_HEAD;                  // Set as Head
-      fifoHead.fnum = 0;                          // Ignore
-      fifoHead.pid = 0;                           // Ignore
-      fifoHead.addr = NULL;                       // Ignore
-      fifoHead.vpn = 0;                           // Ignore
-      fifoHead.next = NULL;                       // Nothing on Q
-      fifoHead.prev = NULL;                       // Nothing on Q
+    fifoHead.type = FIFO_HEAD;                  // Set as Head
+    fifoHead.fnum = 0;                          // Ignore
+    fifoHead.pid = 0;                           // Ignore
+    fifoHead.addr = NULL;                       // Ignore
+    fifoHead.vpn = 0;                           // Ignore
+    fifoHead.next = NULL;                       // Nothing on Q
+    fifoHead.prev = NULL;                       // Nothing on Q
   }
 
   // Loop and Set Free
@@ -189,13 +188,13 @@ syscall	freeFrames(pid32 pid) {
       // PT Match
       if(frametab[i].type == PT_FRAME) {
         // Hook
-    		#ifdef VERBOSE
-    		hook_ptable_delete((unsigned int)frametab[i].fnum);
-    		#endif
+        #ifdef VERBOSE
+        hook_ptable_delete((unsigned int)frametab[i].fnum);
+        #endif
       }
       // PG Match
       if(frametab[i].type == PG_FRAME) {
-      	deleteFifo(&frametab[i]);                     // Delete Node
+        deleteFifo(&frametab[i]);                     // Delete Node
       }
       frametab[i].type = FREE_FRAME;                // Set as Free
       frametab[i].fnum = i + FRAME0;                // Actual Frame Number
@@ -227,7 +226,7 @@ syscall addFifo(frame* pFrame) {
   // Get Head
   frame* Head = &fifoHead;
 
-  // Go to End (Optimize of Required)
+  // Go to End
   while(Head->next != NULL) {
     Head = Head->next;
   }
@@ -260,7 +259,7 @@ int removeFifo() {
   fifoHead.next = fifoHead.next->next;
   fifoHead.next->prev = &fifoHead;
 
-  // Save to BS if Dirty (Have to Dirty Check)
+  // Save to BS if Dirty
   if(isDirty(pFrame->fnum - FRAME0)) {
     if(sendBs(pFrame->fnum - FRAME0) == SYSERR) {
       // Restore and Return
@@ -273,12 +272,12 @@ int removeFifo() {
   // Update PT
   updatePT(pFrame->fnum - FRAME0);
 
-  // Invalidate TLB if Current Process (Have to Optimize)
+  // Invalidate TLB if Current Process (Has no Effect)
   if(frametab[pFrame->fnum - FRAME0].pid == currpid) {
-	temp = frametab[pFrame->fnum - FRAME0].vpn + V_FRAME;
-	asm("pushl %eax");
-	asm("invlpg temp");
-	asm("popl %eax");
+    temp = frametab[pFrame->fnum - FRAME0].vpn + V_FRAME;
+    asm("pushl %eax");
+    asm("invlpg temp");
+    asm("popl %eax");
   }
 
   // Hook
@@ -332,7 +331,7 @@ syscall printFifo() {
   // Get Head
   frame* Head = &fifoHead;
 
-  // Go to End (Optimize of Required)
+  // Go to End
   while(Head->next != NULL) {
     kprintf("%d->", Head->next->fnum);
     Head = Head->next;
@@ -341,7 +340,7 @@ syscall printFifo() {
   // Print New Line
   kprintf("\n");
 
-  // Go to End (Optimize of Required)
+  // Go to End 
   while(Head->prev != NULL) {
     kprintf("%d<-", Head->fnum);
     Head = Head->prev;
