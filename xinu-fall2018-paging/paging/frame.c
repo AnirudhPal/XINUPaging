@@ -148,6 +148,32 @@ unsigned int getPFrame(unsigned int vpn) {
     return frametab[i].fnum;
   }
 
+  if(pgrpolicy == MYPOLICY) {
+    // Remove Page
+    i = removeRand();
+
+    // Set as Page
+    frametab[i].type = PG_FRAME;
+
+    // Set PID
+    frametab[i].pid = currpid;
+
+    // Set VPN
+    frametab[i].vpn = vpn;
+
+    // Get from BS
+    if(getBs(i) == SYSERR) {
+      // Restore and Return
+      kprintf("getPFrame(): getBs() Error. arg: %d.\n", i);
+      restore(mask);
+      kill(currpid);
+    }
+
+    // Restore and Return
+    restore(mask);
+    return frametab[i].fnum;
+  }
+
   // Restore and Return
   kprintf("getPFrame(): No P Frames Left.\n");
   restore(mask);
@@ -193,7 +219,7 @@ syscall	freeFrames(pid32 pid) {
         #endif
       }
       // PG Match
-      if(frametab[i].type == PG_FRAME) {
+      if(frametab[i].type == PG_FRAME && pgrpolicy == FIFO) {
         deleteFifo(&frametab[i]);                     // Delete Node
       }
       frametab[i].type = FREE_FRAME;                // Set as Free
@@ -209,6 +235,54 @@ syscall	freeFrames(pid32 pid) {
   // Restore and Return
   restore(mask);
   return OK;
+}
+
+// Remove Random
+int removeRand() {
+  // Disable Interrupts
+  intmask mask = disable();
+
+  // Get Frame
+  unsigned int rNum = NDSFRAMES + ((unsigned int)rand() % (NFRAMES - NDSFRAMES));
+  kprintf("Pick %d\n", rNum);
+  frame* pFrame = &frametab[rNum];
+
+  // Save to BS if Dirty
+  if(isDirty(pFrame->fnum - FRAME0)) {
+    if(sendBs(pFrame->fnum - FRAME0) == SYSERR) {
+      // Restore and Return
+      kprintf("removeRand(): sendBs() Error. arg: %d.\n", pFrame->fnum - FRAME0);
+      restore(mask);
+      kill(currpid);
+    }
+  }
+
+  // Update PT
+  updatePT(pFrame->fnum - FRAME0);
+
+  // Invalidate TLB if Current Process (Has no Effect)
+  if(frametab[pFrame->fnum - FRAME0].pid == currpid) {
+    temp = frametab[pFrame->fnum - FRAME0].vpn + V_FRAME;
+    asm("pushl %eax");
+    asm("invlpg temp");
+    asm("popl %eax");
+  }
+
+  // Hook
+  #ifdef VERBOSE
+  hook_pswap_out(pFrame->vpn + V_FRAME, pFrame->fnum);
+  #endif
+
+  // Empty Frame
+  pFrame->type = FREE_FRAME;
+  pFrame->pid = 0;
+  pFrame->vpn = 0;
+  pFrame->next = NULL;
+  pFrame->prev = NULL;
+
+  // Restore and Return
+  restore(mask);
+  return (pFrame->fnum) - FRAME0;
 }
 
 // Add FIFO
